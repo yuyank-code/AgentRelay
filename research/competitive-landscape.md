@@ -1,63 +1,99 @@
-# Competitive Landscape — Initial Scan
+# Competitive Landscape
 
-**Reviewed:** 2026-10-30  
-**Confidence:** Preliminary; requires deeper product-by-product validation.
+**Reviewed:** 2026-10-31  
+**Confidence:** Desk research from public product pages and official documentation. Feature claims are vendor-stated unless otherwise noted; hands-on validation and customer interviews remain outstanding.
 
-## 1. Categories that overlap with AgentRelay
+## Executive conclusion
 
-### Agent orchestration frameworks
-Examples: LangGraph, Microsoft Agent Framework, Google Agent Development Kit, CrewAI, Agno, AutoGen/AG2.
+The original differentiation hypothesis—provider-neutral handoffs, coding-agent adapters, project memory, approvals, and multi-agent routing—is not defensible as a feature list. Those capabilities are already present in meaningful combinations across GitHub Copilot, Factory, Shep, CallCode, Proliferate, and other products.
 
-They provide primitives for defining agents, tools, state, delegation, workflows, and human-in-the-loop behavior. These are potential implementation dependencies or alternatives for the orchestration layer.
+The expanded idea—an AI development manager that owns the goal-to-evidence lifecycle from product discovery through release and ongoing improvement—is a more useful product framing, but it is not an empty market. Factory and ServiceNow make broad software-factory or outcome-driven claims; GitHub and specialist tools already cover substantial execution and governance steps.
 
-**Implication:** AgentRelay should not differentiate merely by routing tasks between LLMs or implementing a graph of agents.
+The only credible path is to identify a measurable user outcome or workflow that current products do not handle well, then prove it with a benchmark and user research.
 
-### Agent interoperability protocols
-- **A2A:** agent-to-agent interoperability, discovery, task delegation, and result exchange across different agent implementations.
-- **MCP:** standardized connections between an agent and tools/resources.
+## 1. Direct and adjacent competitors
 
-The official A2A documentation explicitly positions A2A and MCP as complementary, and A2A as a communication protocol rather than an agent development framework.
+| Product | Publicly described overlap | Competitive implication | What still needs validation |
+|---|---|---|---|
+| GitHub Copilot cloud agent and third-party agents | Assign an issue or prompt, run asynchronous coding work, create pull requests, iterate through review comments; GitHub documents third-party Claude and Codex agents in public preview. | Strong distribution and repository-native workflow. A user may not need a separate router for common issue-to-PR tasks. | Cross-provider project-level goal state, product discovery, multi-repository lifecycle, and long-horizon goal-to-runtime traceability. |
+| Factory Droids / Factory | Plan, build, review, and ship; model choice across vendors; codebase understanding; persistent knowledge; adjustable autonomy; mission control, analytics, and automations. | Very direct competitor to a model-independent development manager. Its public positioning already overlaps with much of the proposed vision. | Hands-on depth, exact lifecycle coverage, evidence semantics, pricing, portability, and customer experience. |
+| Shep | Open-source, local-first coding-agent orchestrator; many CLIs; separate Git worktrees; optional spec/research/plan approval; CI, review, pull requests, and human triage. | Directly commoditizes multi-agent worktrees, provider choice, task pipelines, and approval gates. | Whether it manages product-level goals and long-term requirement-to-release feedback, beyond feature/PR workflows. |
+| CallCode | One request becomes parallel tasks; coordinates Claude Code, Codex, Cursor, Copilot, and Gemini CLI; promotes use of existing subscriptions. | Direct overlap with multi-agent orchestration and subscription-backed local agents. | Long-term product memory, verification depth, and release/operations lifecycle. |
+| Proliferate | Public positioning describes parallel coding agents, isolated workspaces, review gates, MCP integrations, and recurring/event-driven automations. | Direct overlap with agent workspaces and engineering workflow orchestration. | Product maturity, availability, exact supported adapters, and lifecycle coverage; public site was not fully inspectable during this scan. |
+| CodeMerlin | Positions itself around engineering governance from specification and planning through implementation and review, with GitHub/GitLab/Jira/Linear and coding-agent integrations. | Overlaps with spec-driven delivery and governance. | Hands-on product behavior, exact automation boundaries, and evidence/verification details. |
+| Specto | Positions itself as an AI product architect that turns an idea into PRD, technical specification, architecture, and sprint plan. | Shows that idea-to-plan and AI product-management stages are also becoming product categories. | Whether it executes code and manages delivery, rather than focusing on planning artifacts. |
+| Devin | Autonomous software-engineering agent with task execution, code/test workflows, pull requests, and review-oriented capabilities. | Strong alternative to building a general coding workforce manager if one autonomous agent can complete the user's tasks. | Multi-provider control, product-goal memory, and how much human steering is needed in real projects. |
+| Bolt | Turns natural-language app descriptions into full-stack web apps and offers preview and deployment. | Competes for simple idea-to-app use cases by removing the need for an external manager. | Generality beyond its managed app-building environment and portability across coding agents. |
+| ServiceNow AI Workflow Factory / Autonomous Engineer | Enterprise positioning around business outcomes, autonomous planning/building/testing, third-party agents/tools, and governance through an AI control tower. | Strong adjacent signal that outcome-oriented, governed agentic execution is a strategic direction for large platforms. | Its target is enterprise workflow transformation, not necessarily an independent developer's cross-provider software project. |
+| OpenHands | SDK and Agent Server for building and running coding agents in local or ephemeral workspaces. | More of an enabling engine/runtime than a direct product competitor, but it can reduce the need to build an execution runtime. | Fit with AgentRelay's desired control plane and integration model. |
 
-**Implication:** Evaluate A2A for interoperable agent endpoints and MCP for repository/tool access. Neither alone defines a durable software-project state model or a complete coding-task verification lifecycle.
+## 2. What is already commoditized or weakly differentiated
 
-### Coding agents and developer environments
-Examples to investigate: Claude Code, OpenAI coding agents/Codex, Gemini CLI, GitHub Copilot coding agent, Cursor, Windsurf, OpenHands, Cline, Aider.
+| Proposed capability | Current assessment |
+|---|---|
+| Handoff packets and prompt/context transfer | Weak as a standalone differentiator. Agents already support project instructions, sessions, memory, and repository context. |
+| Agent routing and model selection | Weak. Factory, GitHub, and specialist orchestrators expose model or agent selection. |
+| Parallel coding agents and Git worktrees | Weak. Shep and other tools already provide this workflow. |
+| Task breakdown and dependency orchestration | Weak. Frameworks and commercial products provide task graphs, plans, crews, and workflows. |
+| Persistent state and session resume | Weak by itself. LangGraph, AutoGen, CrewAI, Temporal, agent SDKs, and products provide variants. |
+| Human approval and audit logs | Necessary but not unique. GitHub, agent frameworks, and enterprise products already expose controls. |
+| Tests, PRs, CI, and code review | Necessary but not unique. Native platforms and agent products increasingly handle these. |
+| Provider-neutral adapters | Useful infrastructure, but adapters are copyable and expensive to maintain. |
+| Goal-to-evidence traceability across discovery, requirements, design, code, tests, release, and runtime feedback | Potential wedge, but not proven unique. Factory and ServiceNow claim broader outcome-oriented loops; more competitor research and hands-on tests are required. |
+| Honest measurement of long-horizon project progress and recovery | Potential research/product wedge. Could become an advantage if AgentRelay demonstrates better outcomes with public, reproducible evaluations. |
 
-These tools increasingly provide their own planning, editing, context, tool use, and review workflows.
+## 3. Potential positioning to test
 
-**Implication:** Adapter feasibility, official automation interfaces, session resume, workspace control, and permission semantics are critical research items. Do not assume a web UI can or should be automated.
+A possible position is:
 
-### Emerging wrappers and gateways
-A preliminary scan surfaced community projects that expose coding agents through A2A-compatible interfaces. This is a direct competitive signal: simply wrapping coding CLIs in A2A may not be a defensible differentiator.
+**An AI development manager for solo builders and small teams that keeps the original product goal, project decisions, and verification evidence connected while existing agents do the work.**
 
-**Implication:** AgentRelay must go beyond protocol wrapping into project continuity, evidence, policy, recovery, and UX—or discover a more valuable wedge.
+This is more specific than "universal agent orchestrator," but it is still only a positioning hypothesis. It must be tested against Factory for broad model-independent software-factory workflows; Shep for local-first, multi-agent coding workflows; GitHub Copilot for repository-native agent delegation; Devin for autonomous task execution; and app builders such as Bolt for simple idea-to-deployed-app workflows.
 
-## 2. Initial differentiation hypothesis
+## 4. Possible defensibility—not yet established
 
-Potential product-owned capabilities:
-1. Canonical project/task state independent of provider conversation history.
-2. Context compilation grounded in Git commits, diffs, tests, docs, and decisions.
-3. Explicit handoff contracts with acceptance criteria and action permissions.
-4. Evidence-backed completion and cross-agent review.
-5. Safe workspace isolation and conflict management.
-6. Recovery and resumability when an agent crashes, times out, or becomes unavailable.
-7. A unified developer timeline across tools.
+Potential sources of durable value:
+1. A high-quality, versioned product-state and requirement/evidence model that remains portable across vendors.
+2. Deep integrations into a user's repositories, CI, issue tracker, preview environments, monitoring, and release process.
+3. A benchmark and evaluation dataset for sequential product evolution, re-planning, recovery, and requirement coverage.
+4. Measured routing and planning policies based on actual task outcomes, cost, latency, and defect rates.
+5. Strong trust, security, local execution, and governance that developers can understand and audit.
+6. A developer experience that makes the system feel like a responsible product/technical lead rather than a collection of agent sessions.
 
-These are hypotheses, not proven gaps. Competitor research must test whether existing products already deliver them.
+None of these is automatically a moat. They become defensible only through execution quality, user trust, integration depth, proprietary workflow learning, or ecosystem adoption.
 
-## 3. Sources reviewed
+## 5. User validation still required
 
-- A2A official documentation: https://a2a-protocol.org/latest/ — describes A2A interoperability and its relationship to MCP; accessed 2026-10-30.
-- A2A official GitHub documentation: https://github.com/a2aproject/A2A — protocol specification and examples; accessed 2026-10-30.
-- Microsoft Learn, agent-to-agent communication: https://learn.microsoft.com/en-us/microsoftteams/platform/agents-in-teams/integrate-ai/agent-to-agent — demonstrates peer-agent handoff; accessed 2026-10-30.
-- Community A2A coding-agent wrapper surfaced in initial scan: https://a2a-wrapper.allsrc.dev/docs — illustrates that exposing coding agents through A2A is already being explored; community project, not proof of vendor-supported integrations; accessed 2026-10-30.
-- LangGraph documentation: https://docs.langchain.com/oss/python/langgraph/overview — review required for detailed feature comparison.
+No customer interviews have been conducted in this research run. Interview 10–15 developers who use coding agents regularly. Ask about their last real project, not whether they like the concept:
+- What did they manually coordinate?
+- What context was lost?
+- Which steps still needed their judgment?
+- Which current product did they try?
+- What failed or felt unsafe?
+- What would they pay to stop doing?
+- What would make them trust a system to continue without them?
 
-## 4. Gaps to investigate next
+Do not treat interest in an ambitious vision as proof of willingness to adopt or pay.
 
-- Compare exact project/session continuity features in Claude Code, Codex, Gemini CLI, Cursor, Copilot, OpenHands, Cline, and Aider.
-- Verify supported programmatic interfaces, licenses, rate limits, and commercial-use constraints.
-- Determine which agents support headless execution, structured output, session resume, streaming, cancellation, and workspace isolation.
-- Compare A2A task/artifact semantics with AgentRelay's proposed task and evidence model.
-- Review current products that coordinate coding agents or transfer tasks between them.
-- Interview developers who regularly switch between coding agents.
+## 6. Sources reviewed on 2026-10-31
+
+- [GitHub Copilot third-party coding agents](https://docs.github.com/en/copilot/concepts/agent-capabilities/about-agents/about-third-party-coding-agents)
+- [GitHub Copilot on GitHub.com and Mobile](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/copilot-surfaces/copilot-on-github)
+- [Factory](https://factory.com/)
+- [Factory Droids](https://factory.com/product/droids)
+- [Shep](https://shep.bot/)
+- [CallCode](https://callcode.dev/)
+- [Proliferate](https://www.proliferate.dev/)
+- [CodeMerlin](https://www.codemerlin.ai/)
+- [Specto](https://specto.codes/)
+- [Devin](https://devin.ai/)
+- [Bolt AI app builder](https://bolt.new/use-cases/ai-app-builder)
+- [ServiceNow AI Workflow Factory announcement, 2026-10-06](https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-launches-AI-Workflow-Factory-to-turn-workflow-improvement-into-a-continuous-agentic-AI-powered-loop/default.aspx)
+- [OpenHands Software Agent SDK](https://github.com/OpenHands/software-agent-sdk)
+
+## 7. Open gaps
+
+- Hands-on feature and pricing comparison for Factory, Shep, GitHub, Devin, CallCode, and Proliferate.
+- Confirm whether product-level goal and requirement traceability is genuinely differentiated.
+- Test whether users prefer an independent manager or a single strong coding agent with good project instructions.
+- Assess whether the first target should be solo builders, small teams, or enterprise engineering groups.

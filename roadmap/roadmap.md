@@ -1,63 +1,120 @@
 # AgentRelay Roadmap
 
-**Status:** Proposed sequence; validate with research and experiments.
+**Status:** Proposed sequence; validate with research and experiments.  
+**Last updated:** 2026-10-31
 
-## Phase 0 — Validate the problem
-- Interview developers who switch between coding agents.
-- Map current manual handoff workflows.
-- Compare existing products and wrappers.
-- Verify official APIs/CLIs and legal/licensing constraints.
-- Define measurable baseline and success criteria.
+## North star
 
-**Exit criteria:** A clearly evidenced problem and a narrow first user workflow.
+AgentRelay should become an AI development manager that can take a software goal through discovery, planning, implementation, verification, release, and improvement while keeping the human as product owner.
 
-## Phase 1 — Local project continuity prototype
-- Register one local Git repository.
-- Capture commit, branch, status, changed files, project instructions, and recent task history.
-- Define provider-neutral Task and HandoffPacket schemas.
-- Generate a compact handoff packet for a human to inspect and copy.
-- Store task/event history locally.
+The roadmap is staged to prove the manager loop before expanding provider count, concurrency, or infrastructure.
 
-**Exit criteria:** A developer can resume work with a different agent using a reproducible packet.
+## Phase 0 — Validate the problem and choose a wedge
 
-## Phase 2 — First coding-agent adapter
-- Select one coding agent with a supported programmatic/headless interface.
-- Execute a bounded task in an isolated worktree.
-- Capture output, exit status, diff, and test evidence.
-- Add timeout, cancellation, and failure states.
+- Interview 10–15 developers who use coding agents on real projects.
+- Map their last end-to-end project workflow and manual coordination burden.
+- Test whether the pain is project-level management or merely task handoff.
+- Compare Factory, Shep, GitHub Copilot, Devin, CallCode, Proliferate, and app builders hands-on.
+- Verify supported interfaces, authentication, terms, pricing, and local/cloud execution.
+- Define a project-level benchmark and single-agent baseline.
 
-**Exit criteria:** One task can be dispatched and its result reliably captured.
+**Exit criteria:** a specific user segment, repeated painful workflow, and measurable outcome that existing tools do not solve adequately.
 
-## Phase 3 — Cross-agent handoff
-- Add a second provider/agent adapter.
-- Convert first agent's execution evidence into a second agent's task context.
-- Support review, revision, and acceptance flows.
-- Add conflict detection and safe workspace handling.
+## Phase 1 — Product understanding and planning experience
 
-**Exit criteria:** Demonstrate a real project task moving from agent A to agent B without manual reconstruction of context.
+- Build a user-facing project workspace.
+- Accept a natural-language product idea.
+- Ask clarifying questions and capture unknowns.
+- Generate a versioned project charter, requirements, non-goals, and success criteria.
+- Generate architecture options, risks, milestones, dependencies, and acceptance checks.
+- Let the user approve the initial product definition and material scope.
 
-## Phase 4 — Verification and policy
-- Add deterministic test/lint/type-check gates.
-- Add reviewer agent as advisory evidence.
-- Add approval tiers and audit log.
-- Add secret redaction and sandbox policy.
+**Exit criteria:** a user can move from an idea to a reviewable, traceable product plan without manually writing every artifact.
 
-**Exit criteria:** Workflow cannot silently promote unverified or unauthorized changes.
+## Phase 2 — Controlled goal-to-code loop
 
-## Phase 5 — Developer experience
-- CLI first, then dashboard if validated.
-- Project timeline, agent status, diff and test evidence.
-- Pause/resume, retry, cancel, and manual override.
-- Cost and latency tracking.
+- Register one Git repository.
+- Add one supported coding-agent adapter.
+- Create an isolated workspace for each bounded task.
+- Dispatch work from the approved plan.
+- Capture diffs, commits, logs, tests, and agent outputs.
+- Link evidence to requirements.
+- Have AgentRelay assess gaps and select the next task.
+- Add bounded retry, pause, cancellation, and human escalation.
+- Present the current goal, requirements, tasks, and evidence in the workspace UI.
 
-## Phase 6 — Scale and interoperability
-- Evaluate A2A for remote agent discovery and task interoperability.
-- Evaluate MCP for tool access.
+**Exit criteria:** a five-or-more-step dependent project chain advances without manual prompt reconstruction and can recover from at least one injected failure.
+
+## Phase 3 — Verification and project intelligence
+
+- Add deterministic test, lint, type, build, security, and browser checks.
+- Add independent review as advisory evidence.
+- Detect requirement gaps, regressions, and stale evidence.
+- Version and diff plan changes.
+- Add cost, latency, confidence, and intervention metrics.
+- Add failure classification and retry budgets.
+
+**Exit criteria:** the system can distinguish task completion from requirement satisfaction and explain why the project is or is not ready.
+
+## Phase 4 — Release and operations
+
+- Add preview environments and release-candidate management.
+- Add approval-based deployment workflows.
+- Record release artifacts, environment, version, and rollback plan.
+- Integrate runtime errors, monitoring, and user feedback.
+- Convert validated operational signals into proposed maintenance work.
+
+**Exit criteria:** one small product can move from idea to an accepted release candidate with traceable evidence and human-controlled deployment.
+
+## Phase 5 — Cross-provider continuity
+
+- Add a second coding-agent adapter.
+- Support switching providers while preserving project state and evidence.
+- Add capability-aware task routing based on observed outcomes.
+- Add session resume, provider failure fallback, and conformance tests.
+- Evaluate A2A for remote agent endpoints.
+
+**Exit criteria:** an actual task or review moves between two supported providers without manual context reconstruction or loss of provenance.
+
+## Phase 6 — Parallelism and team workflows
+
+- Add dependency-aware parallel tasks in separate worktrees.
+- Add conflict detection and merge/rebase policies.
+- Add multiple users, roles, approvals, and project-level budgets.
+- Add issue tracker, CI, cloud, and collaboration integrations.
+- Add team dashboards and audit exports.
+
+**Exit criteria:** concurrent work improves throughput without unacceptable regressions, integration conflicts, or review burden.
+
+## Phase 7 — Scale and ecosystem
+
 - Add more adapters based on user demand.
-- Support remote workspaces and team projects only after local workflow is reliable.
+- Add remote workspaces and hosted execution if trust and economics justify them.
+- Add extension interfaces and reusable project templates.
+- Evaluate business model and enterprise governance requirements.
+- Publish reproducible project-level evaluation results.
 
-## Explicit non-goals for MVP
-- Every AI provider.
-- Autonomous production deployments.
-- Marketplace or agent social network.
-- General-purpose orchestration framework replacement.
+## First milestone: deliberately narrow, not conceptually small
+
+The first milestone is not a generic CLI or a two-agent demo. It is a vertical slice of the intended product:
+- idea intake and clarification;
+- product charter and acceptance criteria;
+- dependency-aware plan;
+- one coding agent;
+- isolated execution;
+- evidence capture;
+- requirement-level verification;
+- dynamic next-step selection;
+- bounded recovery and human escalation;
+- a simple dashboard/timeline.
+
+One agent is enough to prove that AgentRelay manages product progress rather than just passing messages. More agents are added after the loop works.
+
+## Explicit non-goals for the first milestone
+
+- Every AI provider or IDE.
+- A public agent marketplace.
+- Unrestricted parallel agents.
+- Autonomous production deployment.
+- Replacing LangGraph, Temporal, A2A, MCP, or Git.
+- Training a custom model or learning-based router before reliable outcome data exists.

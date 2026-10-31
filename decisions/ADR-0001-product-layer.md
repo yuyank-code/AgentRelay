@@ -2,43 +2,50 @@
 
 - **Status:** Proposed
 - **Date:** 2026-10-30
+- **Reaffirmed:** 2026-10-31
 
 ## Context
 
-AgentRelay's initial concept is to coordinate work between different AI models and coding environments. Frameworks such as LangGraph already provide stateful orchestration, branching, persistence, and human-in-the-loop primitives. A2A provides an interoperability protocol for agent-to-agent communication, while MCP standardizes agent-to-tool connections.
+AgentRelay's initial concept was to coordinate work between different AI models and coding environments. The product vision has since been clarified: AgentRelay should manage software development from a product goal through delivery and improvement, not merely route prompts or hand off coding tasks.
 
-Reimplementing generic orchestration or agent messaging would create a large maintenance burden and weak differentiation.
+Frameworks such as LangGraph, Microsoft Agent Framework, CrewAI, and Google ADK already provide agent/workflow composition and state features. Temporal provides durable workflow execution. A2A provides agent-to-agent interoperability, while MCP standardizes agent-to-tool/context connections. OpenHands provides a software-agent runtime.
+
+Reimplementing these generic capabilities would create a large maintenance burden and weak differentiation.
 
 ## Decision
 
-AgentRelay should own the product-level domain model for software project continuity and handoff, while integrating existing orchestration frameworks and protocols when useful.
+AgentRelay should own the product-level domain model and user experience for goal-oriented software development, while integrating existing orchestration frameworks, runtimes, and protocols where they fit.
 
 The product-owned layer should focus on:
-- project/task state independent of provider chat sessions;
+- product goals, requirements, assumptions, and success criteria;
+- versioned architecture and decision records;
+- dependency-aware plans and dynamic replanning;
+- project continuity independent of provider conversation history;
 - repository-grounded context and provenance;
-- explicit handoff contracts;
 - coding-agent adapters and capability metadata;
-- execution evidence and verification;
-- workspace isolation and conflict handling;
-- policy, approvals, and auditability;
-- developer-facing continuity across agents.
+- execution evidence and requirement-level verification;
+- release and operational feedback links;
+- policy, approvals, escalation, and auditability;
+- a clear developer experience across tools and lifecycle stages.
 
 ## Consequences
 
 ### Positive
-- Can use mature orchestration frameworks instead of rebuilding them.
-- Differentiation is tied to developer workflow outcomes.
-- Provider-neutral project state can outlive any one agent session.
-- Easier to add or replace orchestration technology.
+- Avoids rebuilding generic agent frameworks.
+- Keeps product state portable across providers and sessions.
+- Differentiation is tied to product outcomes and evidence rather than agent routing.
+- Allows the workflow engine and agent runtime to change independently.
 
 ### Negative
-- Integrations and adapters still require ongoing maintenance.
-- Product must carefully normalize different agent capabilities without hiding important differences.
-- Project-state and evidence models require thoughtful design.
-- Existing coding tools may close the gap over time.
+- The product model and evidence graph are difficult to design correctly.
+- Integrations and adapters require ongoing maintenance.
+- Existing products already overlap substantially.
+- Goal-level verification is much harder than task-level orchestration.
+- A broad lifecycle product requires careful staged scope.
 
 ## Revisit when
 
-- A framework cannot support required pause/resume, durable execution, or policy semantics.
-- A2A or another standard evolves to cover most of the proposed handoff lifecycle.
-- Competitor research shows the product-owned layer is already commoditized.
+- A framework or commercial product provides the required product-goal and evidence lifecycle in a way that removes the need for AgentRelay.
+- The proposed product-owned layer proves commoditized.
+- User research identifies a narrower, more valuable wedge.
+- Durable execution, policy, or verification requirements force a different architecture.

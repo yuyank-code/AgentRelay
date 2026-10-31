@@ -1,75 +1,129 @@
 # AgentRelay — Product Brief
 
-**Status:** Initial hypothesis, to be validated  
-**Last updated:** 2026-10-30
+**Status:** Strategic hypothesis; validation required  
+**Last updated:** 2026-10-31
 
 ## 1. Vision
 
-Make software project work portable across AI models and coding environments. A developer should be able to start work with one agent, hand it to another, and continue from verified project state rather than manually copying prompts and chat histories.
+AgentRelay is an AI development manager that helps move a software product from an initial idea through discovery, requirements, architecture, implementation, verification, release, and ongoing improvement.
 
-## 2. Primary user
+The user defines the intended outcome, constraints, preferences, and approval boundaries. AgentRelay manages the day-to-day development process by maintaining product context, planning work, coordinating existing AI agents and tools, checking evidence, replanning when needed, and escalating decisions that require a person.
 
-A developer or small team that uses multiple AI assistants and coding agents, and regularly switches between them for planning, implementation, debugging, review, or cost/availability reasons.
+This is broader than transferring work between AI coding sessions. Cross-agent continuity is one enabling capability inside a goal-oriented development system.
+
+## 2. Primary user hypothesis
+
+Initial target: solo developers and very small teams who use one or more AI coding agents to build products and find themselves manually acting as product manager, technical lead, project coordinator, reviewer, and context carrier.
+
+This is a hypothesis, not validated customer research. The first user is also the product's own builder, which makes personal workflow observation useful but insufficient for market validation.
 
 ## 3. Core job to be done
 
-"When I switch AI tools during a software project, help the next tool understand the real state of the project, what has already been tried, what remains, and exactly what it is authorized to do—so work can continue safely."
+"When I describe a software outcome, help me turn it into a working, verifiable product and keep development moving without requiring me to manually plan and prompt every next step. Keep me informed and let me make the important decisions."
 
-## 4. Key workflow
+## 4. User and system responsibilities
 
-1. **Create/select project:** connect a local Git repository.
-2. **Set goal:** record the desired outcome, constraints, and definition of done.
-3. **Plan:** break the goal into small tasks with dependencies and acceptance criteria.
-4. **Select executor:** choose or recommend a compatible coding agent.
-5. **Prepare handoff:** build a compact, task-specific packet from project state and relevant evidence.
-6. **Execute:** run the coding agent in a controlled workspace.
-7. **Capture evidence:** collect diff, changed files, logs, tests, exit status, and agent summary.
-8. **Verify:** run policy-approved checks and optionally ask a separate reviewer.
-9. **Decide:** accept, request revision, retry, or pause for a human.
-10. **Continue:** create the next task and hand it to the same or a different agent.
+### The user owns
+- the product goal and intended users;
+- business, ethical, and product trade-offs;
+- constraints, budget, and acceptable risk;
+- approval of material scope changes and consequential actions;
+- final acceptance of product behavior and release decisions.
 
-## 5. Product capabilities (hypotheses)
+### AgentRelay owns
+- clarifying questions and discovery artifacts;
+- maintaining the current product and engineering model;
+- creating and revising plans and task dependencies;
+- choosing a suitable execution capability within policy;
+- dispatching work and capturing results;
+- assessing progress against the original goal;
+- attempting bounded recovery and replanning;
+- communicating blockers and asking for human decisions.
 
-- Project registry and repository connection.
-- Provider-neutral task and handoff schema.
-- Coding-agent adapters with capability declarations.
-- Context compiler that selects relevant project facts instead of dumping entire chat histories.
-- Execution manager for local or isolated workspaces.
-- Git diff and test-evidence capture.
-- Verification and review gates.
-- Human approval and permission policies.
-- Timeline, audit log, costs, latency, and failure visibility.
-- Recovery from interrupted or failed agent runs.
+### Coding agents and tools do
+- research or implementation tasks assigned to them;
+- repository inspection and code changes;
+- tests, builds, browser checks, and other delegated work;
+- structured reports and artifacts through supported interfaces.
 
-## 6. What AgentRelay is not
+AgentRelay coordinates these capabilities; it does not need to recreate every model, coding agent, test runner, or deployment system.
 
-- Not a new foundation model.
-- Not merely a chat UI that forwards prompts.
-- Not a replacement for Git.
-- Not necessarily a new general-purpose multi-agent framework.
-- Not an unrestricted autonomous agent that can silently modify production systems.
-- Not a promise that every commercial coding product exposes a stable automation API. Adapter feasibility must be verified individually.
+## 5. Intended lifecycle
 
-## 7. Initial non-goals
+1. **Discover:** understand the problem, target users, existing constraints, and unknowns.
+2. **Define:** create a project charter, requirements, user journeys, non-functional requirements, and definitions of success.
+3. **Design:** develop architecture, data models, interfaces, technical decisions, and risk analysis.
+4. **Plan:** produce milestones, workstreams, dependencies, acceptance checks, and budgets.
+5. **Build:** dispatch bounded work to compatible coding agents in controlled workspaces.
+6. **Verify:** run deterministic checks, inspect diffs, review behavior, and map evidence to requirements.
+7. **Replan:** update tasks and priorities when tests fail, assumptions change, or dependencies are discovered.
+8. **Release:** prepare release candidates and deployment plans; require policy-based approval for production changes.
+9. **Operate:** eventually observe errors, user feedback, and operational metrics.
+10. **Improve:** turn validated feedback into maintenance and product-development work.
 
-- Public agent marketplace.
-- Arbitrary remote agents across untrusted networks.
-- Automatic production deployment.
-- Autonomous purchases, account changes, or external communications.
-- Supporting every IDE and coding agent in the first release.
-- Replacing established workflow engines where they already solve orchestration well.
+Not every project needs every stage. The lifecycle should be configurable rather than a rigid checklist.
 
-## 8. Success metrics to test
+## 6. Product capabilities
 
-- Time required to resume a project after switching agents.
-- Percentage of handoffs accepted without manual context repair.
-- Task completion rate after handoff.
-- Regression/defect rate compared with single-agent workflows.
-- Percentage of completion claims backed by reproducible evidence.
-- Human intervention frequency and reason.
-- Cost and latency per successfully completed task.
-- Context size/tokens required to resume work.
+- Project registry and versioned product charter.
+- Clarifying-question and discovery workflow.
+- Requirements and acceptance-criteria model.
+- Architecture and decision records with rationale.
+- Dependency-aware roadmap and task graph.
+- Goal-progress assessment and dynamic replanning.
+- Provider-neutral, capability-aware agent adapters.
+- Repository, filesystem, issue tracker, CI, browser, and deployment integrations.
+- Context compiler with source paths, commit SHAs, and evidence references.
+- Isolated execution workspaces and resource budgets.
+- Test, build, lint, type-check, security, and browser evidence capture.
+- Independent review as advisory evidence, not a sole oracle.
+- Failure detection, bounded retries, checkpoints, and recovery.
+- Risk-based human approval and escalation.
+- Project timeline, status, blockers, cost, latency, and audit history.
+- Post-release monitoring and maintenance feedback in later phases.
 
-## 9. Key product risk
+## 7. What success means
 
-Existing coding agents and orchestration frameworks may add equivalent cross-agent continuity features. AgentRelay must demonstrate a differentiated, measurable benefit—especially repository-grounded state, robust adapter behavior, verification, and safe handoff—not simply wrap APIs.
+Success is not the number of agents connected or tasks marked complete. It is whether AgentRelay helps a user reach a better verified product outcome with less coordination burden and acceptable cost and risk.
+
+Candidate measures:
+- percentage of stated requirements satisfied by independent checks;
+- time from idea to accepted preview or release candidate;
+- human minutes spent writing next-step prompts and repairing context;
+- successful continuation after agent/session/provider changes;
+- number and severity of regressions;
+- percentage of status claims backed by reproducible evidence;
+- quality of re-planning after injected failures or requirement changes;
+- cost and latency per accepted requirement;
+- human intervention frequency, time, and reason;
+- unauthorized actions blocked and false approvals avoided.
+
+## 8. Product boundaries and non-goals
+
+- Not a foundation model or general agent framework.
+- Not a replacement for Git, CI, issue trackers, cloud providers, or coding agents.
+- Not unrestricted production autonomy.
+- Not universal support for every IDE or provider in the first release.
+- Not a requirement to use multiple agents for every task.
+- Not a guarantee that vendor consumer subscriptions can be embedded in third-party products.
+
+## 9. Key risks
+
+1. Existing products already cover substantial parts of this vision.
+2. Broad autonomy can create cascading errors and hidden costs.
+3. Product requirements may be vague or internally contradictory.
+4. Model-generated tests and model-generated reviews can share blind spots.
+5. Provider APIs, CLIs, permissions, and terms can change.
+6. Agent state is not the same as durable project state or external transaction state.
+7. Product-level completion is harder to prove than task-level test success.
+8. The project could become an expensive wrapper without a clear differentiated workflow.
+
+## 10. Validation questions
+
+- When did developers last lose time moving work between agents or sessions?
+- What did they have to reconstruct manually?
+- Which decisions do they still want to make themselves?
+- Which current products already solve the pain well enough?
+- Would they trust an AI manager to replan and continue without approval for routine changes?
+- What evidence would make them trust a completion claim?
+- Would they pay for continuity, verified outcomes, governance, or convenience—and which one is the actual purchase driver?
