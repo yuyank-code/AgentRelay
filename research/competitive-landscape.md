@@ -1,6 +1,6 @@
 # Competitive Landscape
 
-**Reviewed:** 2026-10-31  
+**Reviewed:** 2026-11-01  
 **Confidence:** Desk research from public product pages and official documentation. Feature claims are vendor-stated unless otherwise noted; hands-on validation and customer interviews remain outstanding.
 
 ## Executive conclusion
@@ -97,3 +97,70 @@ Do not treat interest in an ambitious vision as proof of willingness to adopt or
 - Confirm whether product-level goal and requirement traceability is genuinely differentiated.
 - Test whether users prefer an independent manager or a single strong coding agent with good project instructions.
 - Assess whether the first target should be solo builders, small teams, or enterprise engineering groups.
+
+
+## 8. Competitive refresh — 2026-11-01
+
+This refresh deepens the comparison using current official product and documentation pages. These remain vendor-stated capabilities; no hands-on product test was performed in this run.
+
+### Shep is a closer competitor than a basic parallel-agent runner
+
+The current [Shep product page](https://shep.bot/) describes a workflow that starts from a short feature description and can optionally generate research, requirements, and an approved YAML plan before implementation. It then runs one or more selected coding CLIs in separate Git worktrees, watches CI, can push bounded fixes after CI failures (the page describes up to three configurable retries), routes agent questions to a human with a recommended answer, and stores per-step checkpoints that can be diffed or restored. It also provides web, CLI, and terminal interfaces.
+
+**Implication:** Shep already covers a meaningful portion of the feature-level spec → implement → review → PR loop, including agent choice, approval, retries, and checkpoints. AgentRelay must not claim these capabilities as novel.
+
+The public Shep pages reviewed here do not establish whether it maintains a long-lived product model spanning discovery, changing requirements, multiple repositories, releases, production signals, and a traceable goal-to-outcome ledger. That is a research question, not a confirmed absence.
+
+Sources: [Shep product page](https://shep.bot/), [Shep documentation](https://shep.bot/docs).
+
+### GitHub is becoming both a multi-agent surface and an agentic workflow runtime
+
+GitHub documents third-party Claude and Codex coding agents in public preview. Users can assign agents from repository Agents tabs, issues, pull requests, mobile, or VS Code; agents create reviewable pull requests and can iterate from review comments. The page describes repository context and GitHub policy controls.
+
+Separately, [GitHub Agentic Workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-github-agentic-workflows) lets developers define repository automations in Markdown and run them through GitHub Actions using Copilot, Claude, Codex, or Gemini. The documentation describes read-only defaults, declared safe outputs, secrets isolated from the agent runtime, firewalled execution, threat detection, and run-level usage/cost inspection.
+
+**Implication:** a user whose pain is simply “run Claude/Codex/Gemini on repository tasks with guardrails” may already have a native GitHub route. AgentRelay's opportunity, if any, must be broader than repo automation: a durable product-level control plane that coordinates work across the user's full software lifecycle and potentially across systems outside GitHub.
+
+Sources: [GitHub third-party coding agents](https://docs.github.com/en/copilot/concepts/agent-capabilities/about-agents/about-third-party-coding-agents), [GitHub Agentic Workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-github-agentic-workflows).
+
+### Factory's public positioning directly overlaps with the expanded vision
+
+Factory's current Droids page claims cross-model routing, codebase understanding, adjustable autonomy, consistent memory across tools, and an end-to-end prompt-to-PR workflow covering planning, implementation, testing, and pull request creation.
+
+**Implication:** AgentRelay cannot position itself merely as “one AI manager for multiple models.” It needs a specific user segment and measurable workflow advantage, or deeper product-level state and lifecycle integration that Factory's actual product does not provide. This requires hands-on validation.
+
+Source: [Factory Droids](https://factory.com/product/droids).
+
+### OpenHands provides more than a coding SDK
+
+The OpenHands Software Agent SDK provides Python, TypeScript, and REST interfaces for coding agents and local or ephemeral workspaces. A separate [OpenHands Automation Service](https://github.com/OpenHands/automation) owns cron schedules, webhooks, dispatch, sandbox lifecycle, and run history; its repository describes the service as beta.
+
+**Implication:** AgentRelay can reuse an existing execution and scheduling stack if it fits, rather than building every runtime primitive. OpenHands still does not automatically supply AgentRelay's chosen product-goal and requirement/evidence model.
+
+Sources: [OpenHands Software Agent SDK](https://github.com/OpenHands/software-agent-sdk), [OpenHands Automation Service](https://github.com/OpenHands/automation).
+
+### Codex is explicitly positioned as an embeddable harness
+
+OpenAI's 2026-08-19 article describes the Codex CLI, SDK, and app-server as reusable agent infrastructure. App-server exposes threads, turns, events, interruption, tools, and approval requests. The article's architecture assigns the host application responsibility for its own interface, domain context, tools, and operational boundaries.
+
+**Implication:** building a second generic coding-agent harness is unnecessary for the Codex path and likely wasteful elsewhere. AgentRelay should own the manager and product state, then integrate native harnesses through adapters.
+
+Source: [Codex as a platform](https://developers.openai.com/blog/codex-as-a-platform).
+
+## 9. Revised differentiation test
+
+| Candidate claim | Current evidence | Verdict |
+|---|---|---|
+| Universal model/agent routing | Factory, Shep, GitHub, and other products already advertise multiple providers or agents. | Not defensible alone. |
+| Handoff and persistent agent context | Existing SDKs and products provide sessions, memory, repository instructions, and continuity. | Table stakes. |
+| Spec and plan generation before code | Shep and product-planning tools already advertise this. | Not unique. |
+| Worktree isolation, retries, CI repair, approvals | Shep and native platforms cover substantial parts. | Not unique. |
+| Natural-language repository automation with safe outputs | GitHub Agentic Workflows covers this. | Not unique for repo-scoped automations. |
+| Goal-to-requirement-to-code-to-test-to-release-to-runtime traceability across tools | No complete independent proof found in this desk scan; Factory and enterprise platforms make broad adjacent claims. | Candidate wedge; unproven. |
+| Reliable autonomous replanning across a long-lived product with evidence and bounded authority | Public product pages make claims, but comparative independent evidence is lacking. | Research and benchmark opportunity, not a moat yet. |
+
+A stronger positioning hypothesis to test is:
+
+**AgentRelay is a product-level control plane for solo builders and small teams: it maintains the user's intended product outcome and its evidence across planning, coding agents, repositories, releases, and feedback systems, then decides and coordinates the next justified action.**
+
+This still may be beaten by an incumbent. Validate it through hands-on trials and interviews before investing in a large implementation.

@@ -1,7 +1,7 @@
 # Evaluation Plan — Does AgentRelay Actually Manage Product Progress Better?
 
 **Status:** Proposed experiment design  
-**Last updated:** 2026-10-31
+**Last updated:** 2026-11-01
 
 ## 1. Evaluation objective
 
@@ -129,3 +129,27 @@ For the first vertical slice, require:
 8. measurable reduction in human coordination time versus the single-agent baseline.
 
 If AgentRelay cannot outperform the baseline, identify whether the failure is in goal interpretation, planning, execution, verification, recovery, or UX before adding more agents.
+
+
+## 10. Baseline refresh — 2026-11-01
+
+The existing-product baseline should no longer be a generic placeholder. For any experiment where access is available, include at least one of these concrete comparisons:
+
+- **Shep:** test its one-sentence feature intake, optional research/requirements/plan approval, multi-agent worktrees, CI retry, question triage, and checkpoints. Determine whether its product state persists across multiple features and lifecycle stages.
+- **GitHub Agentic Workflows:** test a Markdown-defined, event/schedule-triggered workflow using a supported engine. Measure how much product-level planning and cross-run state must still be supplied externally.
+- **GitHub Copilot third-party agents:** test issue/PR assignment and follow-up iteration using Claude or Codex where account access permits.
+- **Factory Droids:** test prompt-to-PR, model routing, codebase understanding, adjustable autonomy, and memory in a realistic project.
+- **OpenHands SDK plus Automation Service:** test whether the SDK/runtime and cron/webhook service can provide an adequate execution layer without building one.
+
+Do not assume all products can be compared under identical billing or model constraints. Record product version, plan, engine, auth mode, available features, limits, and setup time. If a competitor is unavailable, mark the comparison not run rather than inferring performance from marketing.
+
+### Add manager-specific test cases
+
+1. **Goal drift:** introduce a plausible but out-of-scope suggestion and verify AgentRelay preserves the approved goal.
+2. **Requirement evolution:** reveal a missing requirement after implementation starts and measure whether the plan is revised with a clear rationale and approval boundary.
+3. **Cross-system dependency:** require a change involving code, CI, issue tracking, and a release artifact; test whether the evidence chain remains connected.
+4. **Task success versus product success:** allow an implementation task to pass while an end-to-end requirement remains unsatisfied; verify the manager does not mark the product complete.
+5. **Provider substitution:** interrupt or make one agent unavailable, then resume with another supported agent without losing requirements, decisions, or evidence.
+6. **Operational feedback:** inject a post-release defect signal and verify that it becomes a proposed maintenance task linked to the affected requirement/release rather than silently changing product scope.
+
+The primary outcome should be **time and cost to a verified product outcome with a measured amount of human coordination**, not number of agents, number of generated tasks, or PR count.

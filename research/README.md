@@ -1,7 +1,7 @@
 # AgentRelay Research Program
 
 **Started:** 2026-10-30  
-**Latest research update:** 2026-10-31  
+**Latest research update:** 2026-11-01  
 **Status:** Active
 
 ## Current product framing
@@ -46,6 +46,7 @@ Cross-agent handoff remains important, but it is a supporting capability rather 
 - [Frameworks and protocols](frameworks-and-protocols.md)
 - [Agent integration feasibility](agent-integration-feasibility.md)
 - [2026-10-31 research update](2026-10-31-research-update.md)
+- [2026-11-01 research update](2026-11-01-research-update.md)
 - [Evaluation plan](evaluation-plan.md)
 - [Security and trust](../docs/security-and-trust.md)
 - [Roadmap](../roadmap/roadmap.md)
@@ -62,3 +63,13 @@ This is not yet a proven market gap. Factory, Shep, GitHub Copilot, and other pr
 
 - 2026-10-30: initial product and architecture documents created.
 - 2026-10-31: reframed the product around a goal-oriented AI development manager; added current competitor, framework, integration, benchmark, and product-risk research. This run's findings are consolidated in one research update and published in one Git commit.
+- 2026-11-01: refreshed the competitor analysis against Shep, GitHub Agentic Workflows, Factory, OpenHands Automation, and Codex's embeddable harness; corrected the nuanced Anthropic subscription/auth finding; clarified the manager-versus-harness boundary. Published together in one Git commit.
+
+
+## New findings from 2026-11-01
+
+The strongest competitor pressure is now clearly visible in Shep's spec-driven feature workflow, GitHub's multi-agent and Agentic Workflows surfaces, and Factory's cross-model prompt-to-PR positioning. Generic agent routing, plan generation, approvals, retries, worktrees, and repository automation should be treated as table stakes.
+
+The architectural response is to keep AgentRelay's ownership at the product/control-plane layer and reuse provider-native agent harnesses or OpenHands for execution. The possible wedge remains long-lived product-goal traceability across requirements, implementation, release, and operational feedback, but it is not yet validated.
+
+Anthropic's current Agent SDK overview and Help Center subscription article need to be interpreted together; their wording creates a product-distribution permission question. The repository now records this nuance rather than making a blanket claim about Claude plan authentication.

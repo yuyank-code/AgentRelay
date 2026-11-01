@@ -1,7 +1,7 @@
 # Initial Architecture — Goal-Oriented Development Manager
 
 **Status:** Research hypothesis; not an implementation commitment  
-**Last updated:** 2026-10-31
+**Last updated:** 2026-11-01
 
 ## Design goal
 
@@ -174,3 +174,49 @@ A mature version may manage preview environments, release candidates, deployment
 7. Prompt injection can arrive through repositories, issues, websites, or tool output.
 8. Verification may share the implementation agent's blind spots.
 9. Cost and latency can grow non-linearly in open-ended loops.
+
+
+## AgentRelay manager versus provider agent harness
+
+**Design update, 2026-11-01**
+
+AgentRelay should not rebuild the generic coding-agent loop when a supported provider or runtime already supplies one.
+
+### Responsibility boundary
+
+| AgentRelay owns | Provider harness/runtime owns |
+|---|---|
+| Original product goal and approved scope | Model-specific reasoning and tool loop |
+| Users, requirements, assumptions, success measures | Provider context compaction and session internals |
+| Architecture decisions, roadmap, milestones, dependencies | Native file, shell, browser, and MCP tool execution |
+| Cross-agent and cross-session project continuity | Provider-specific conversation/session IDs and resume mechanics |
+| Task selection and capability-aware routing | Model selection and provider-native subagents |
+| Cross-system evidence and requirement status | Raw provider events, tool outputs, and execution logs |
+| Product-level risk, budget, approval, and escalation policy | Runtime sandbox and permission hooks, subject to AgentRelay's outer policy |
+| Release readiness and later operational feedback | Provider-specific execution, streaming, and interruption |
+
+The provider harness is not automatically trusted to determine that the product goal is satisfied. It reports execution facts; AgentRelay evaluates those facts against the approved product model and acceptance policy.
+
+### Adapter contract: preserve differences
+
+Adapters should expose a capability profile and map only common lifecycle concepts into AgentRelay's event model. Do not reduce every provider to a single prompt/response interface.
+
+Suggested normalized events:
+- run_created and run_started;
+- progress_updated;
+- tool_or_action_requested;
+- approval_requested;
+- artifact_created;
+- checkpoint_created;
+- usage_reported;
+- run_completed, run_failed, run_cancelled, or run_interrupted.
+
+Each normalized event should retain a reference to the raw provider event and artifact. Unsupported events must be marked unsupported, not silently simulated.
+
+### Manager loop and safety boundary
+
+The LLM manager may recommend the next action, but a deterministic policy layer must authorize it. A durable workflow runtime records state transitions and reconciles external side effects. The execution runtime enforces workspace, filesystem, process, and network boundaries.
+
+The manager should be able to choose among research, clarification, architecture, implementation, testing, review, recovery, release preparation, monitoring, and escalation. The available executor can be a coding agent, research agent, deterministic tool, CI job, or external integration; not every step needs a coding model.
+
+Do not treat an agent's internal task list as AgentRelay's authoritative product plan. Store the product plan separately, version revisions, and record why each revision occurred.

@@ -74,6 +74,7 @@ Research and product definition. No production implementation is claimed.
 - [Roadmap](roadmap/roadmap.md)
 - [ADR-0001](decisions/ADR-0001-product-layer.md)
 - [ADR-0002](decisions/ADR-0002-goal-oriented-manager.md)
+- [ADR-0003](decisions/ADR-0003-reuse-agent-harnesses.md)
 
 ## First proof milestone
 
