@@ -118,3 +118,13 @@ One agent is enough to prove that AgentRelay manages product progress rather tha
 - Autonomous production deployment.
 - Replacing LangGraph, Temporal, A2A, MCP, or Git.
 - Training a custom model or learning-based router before reliable outcome data exists.
+
+
+## Research gate — 2026-11-02
+
+Before adding more providers or implementing a large orchestration stack, complete two validation activities:
+
+1. **Hands-on competitor trial:** compare GitHub Copilot dynamic workflows, GitHub Agentic Workflows, Jules, Shep and Factory on the same small multi-step project. Record plan quality, durable state, evidence links, approval behavior, recovery, cost and human effort.
+2. **Concierge user pilot:** manually provide the proposed product-state/evidence workflow to 3–5 real solo builders or small teams using their existing coding agents. Test whether they value a persistent goal/requirement ledger and manager-selected next actions enough to change their current workflow.
+
+Base the next architecture decision on these results. Do not add A2A, parallel agents, a graph database, Temporal or a broad adapter marketplace merely because they are available.

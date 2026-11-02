@@ -220,3 +220,32 @@ The LLM manager may recommend the next action, but a deterministic policy layer 
 The manager should be able to choose among research, clarification, architecture, implementation, testing, review, recovery, release preparation, monitoring, and escalation. The available executor can be a coding agent, research agent, deterministic tool, CI job, or external integration; not every step needs a coding model.
 
 Do not treat an agent's internal task list as AgentRelay's authoritative product plan. Store the product plan separately, version revisions, and record why each revision occurred.
+
+
+## Product-state ledger and evidence provenance — 2026-11-02
+
+See [Product State and Evidence Model](../docs/product-state-model.md). The key separation is:
+
+1. **Product/domain state:** approved goal, requirements, decisions, plan versions, releases and operational feedback. AgentRelay owns this.
+2. **Execution state:** active workflow/run/checkpoint/waiting state. A workflow runtime owns durable execution; AgentRelay stores correlation and event references.
+3. **External effect state:** PR, merge, deployment, issue and other effects. The external system remains authoritative; AgentRelay reconciles it.
+4. **Agent context/memory:** task-specific information compiled from canonical records. It is a view, not the source of truth.
+5. **Observability:** traces and metrics describe system behavior, not product correctness.
+
+### Recommended logical trace
+
+`ProductGoal → RequirementVersion → AcceptanceCheck → PlanVersion/WorkItem → AgentRun → Artifact → Evidence → Release → OperationalSignal`
+
+Every status claim must link to the versions and artifacts it covers. Requirement state and evidence outcome are distinct. Evidence becomes stale when the requirement, tested commit, environment or relevant check changes.
+
+Use stable IDs and append-only state-transition/audit events with query-friendly projections. Do not require a graph database in the first version; relational tables with explicit relationships are a plausible starting point.
+
+### Workflow durability
+
+Temporal is a candidate only when workflows must survive process/deploy failures, wait for long-running human/system signals, or resume multi-day activity. Its event history can reconstruct workflow execution, but it does not replace AgentRelay's product-domain ledger or the source of truth in external systems. Side-effecting activities still need stable idempotency keys and external-state reconciliation.
+
+For a local first vertical slice, an explicit state machine and relational event/state tables may be simpler. Do not combine LangGraph and Temporal by default: use a reasoning graph where adaptive model decisions are needed and a durable workflow engine where execution recovery is required. Validate the boundary with crash, retry, approval-wait and duplicate-side-effect tests.
+
+### Observability and privacy
+
+OpenTelemetry's current GenAI conventions include workflow, agent, tool and evaluation spans, but are marked Development. Use them as an instrumentation mapping, pin versions and keep AgentRelay's domain schema independent. Raw model messages and tool arguments/results can contain sensitive data; do not copy them into telemetry by default. Store sensitive artifacts separately with scoped access and record references/digests in traces.

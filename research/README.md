@@ -1,7 +1,7 @@
 # AgentRelay Research Program
 
 **Started:** 2026-10-30  
-**Latest research update:** 2026-11-01  
+**Latest research update:** 2026-11-02  
 **Status:** Active
 
 ## Current product framing
@@ -47,6 +47,7 @@ Cross-agent handoff remains important, but it is a supporting capability rather 
 - [Agent integration feasibility](agent-integration-feasibility.md)
 - [2026-10-31 research update](2026-10-31-research-update.md)
 - [2026-11-01 research update](2026-11-01-research-update.md)
+- [2026-11-02 research update](2026-11-02-research-update.md)
 - [Evaluation plan](evaluation-plan.md)
 - [Security and trust](../docs/security-and-trust.md)
 - [Roadmap](../roadmap/roadmap.md)
@@ -73,3 +74,18 @@ The strongest competitor pressure is now clearly visible in Shep's spec-driven f
 The architectural response is to keep AgentRelay's ownership at the product/control-plane layer and reuse provider-native agent harnesses or OpenHands for execution. The possible wedge remains long-lived product-goal traceability across requirements, implementation, release, and operational feedback, but it is not yet validated.
 
 Anthropic's current Agent SDK overview and Help Center subscription article need to be interpreted together; their wording creates a product-distribution permission question. The repository now records this nuance rather than making a blanket claim about Claude plan authentication.
+
+
+## New findings from 2026-11-02
+
+GitHub Copilot dynamic workflows document sequential/parallel agent orchestration, structured handoffs, subagent verification, checkpoints, pause/resume and budgets. GitHub Agentic Workflows support multiple coding-agent engines with repository guardrails. Copilot Memory spans several GitHub surfaces, although it remains an ecosystem-scoped memory mechanism rather than a provider-neutral product-state ledger. Google's Jules exposes plan approval, task sessions, activities, follow-up messages and an alpha REST API.
+
+These findings further commoditize generic orchestration, memory, approvals and agent selection. The remaining hypothesis is a portable, versioned product-state/evidence layer connecting the original goal to requirements, decisions, code, tests, releases and later feedback. Public docs do not prove competitors lack this; hands-on tests are required.
+
+A recent Reddit discussion provides a qualitative example of a solo/non-developer builder coordinating a master design document, ticket system, scheduled Codex implementation, Claude review and user testing. Other commenters describe wiki/ticket ingestion, deterministic gates, worktrees and independent review. This is evidence of DIY workflows, not representative market validation.
+
+Architecture research now separates product/domain state, execution state, external effect state, agent memory/context and observability. W3C PROV-O offers useful provenance semantics; Temporal can provide durable execution where justified; OpenTelemetry GenAI conventions are still in Development and warn against capturing sensitive prompts/tool payloads by default.
+
+## Publishing history — 2026-11-02
+
+Added the product-state/evidence model and ADR-0004; refreshed competitor and integration research for GitHub Copilot dynamic workflows, Agentic Workflows, Copilot Memory and Jules; added user-workflow signals, a concierge validation experiment, Temporal/provenance guidance and telemetry privacy controls. All changes from this run are published together in one Git commit.

@@ -164,3 +164,80 @@ A stronger positioning hypothesis to test is:
 **AgentRelay is a product-level control plane for solo builders and small teams: it maintains the user's intended product outcome and its evidence across planning, coding agents, repositories, releases, and feedback systems, then decides and coordinates the next justified action.**
 
 This still may be beaten by an incumbent. Validate it through hands-on trials and interviews before investing in a large implementation.
+
+
+## 9. Competitive refresh — 2026-11-02: GitHub workflows, Copilot Memory, and Jules
+
+This review adds current official documentation. These are vendor-documented capabilities, not hands-on performance findings.
+
+### GitHub Copilot dynamic workflows
+
+GitHub documents dynamic workflows as programs combining deterministic code with one or more agents. They can run sequentially or in parallel, split a goal into tasks, pass structured results, have subagents verify findings, request user input, pause at checkpoints, and resume paused or limit-stopped runs. Limits can cover concurrent/total agents, runtime and approximate AI credits. The feature is marked public preview.
+
+Important boundary: sharing a workflow extension shares its definition, not the original run history or saved progress. A paused run can reuse saved results from completed steps when resumed, but that is not a durable product record spanning separate milestones, providers and releases.
+
+**Implication:** generic orchestration, structured handoffs, subagent review, budgets, pause/resume and progress views are not defensible differentiators.
+
+### GitHub Agentic Workflows and Copilot Memory
+
+GitHub Agentic Workflows define repository automations in Markdown and run them through Actions. Current docs list Copilot, Claude, Codex and Gemini engines. Security controls include read-only defaults, declared safe outputs, secrets isolated in downstream jobs, firewalled execution and threat detection. Cost combines Actions minutes and model inference; AI Credit estimates are best-effort.
+
+Copilot Memory stores repository facts and user preferences and can be used across Copilot surfaces including cloud agent, CLI, code review, app, Slack and Teams. However, repository facts are scoped to one repository, memory use is a model judgment rather than a guaranteed rule, and the documented default expiry is 90 days without reinforcement.
+
+**Implication:** persistent memory and cross-surface context are not unique by themselves. AgentRelay's potential difference must be explicit, portable product state: versioned requirements, decisions, plan changes, evidence freshness and external outcome references across providers.
+
+### Google Jules
+
+Jules documents plan-before-code, user review/approval, mid-task feedback, plan revision, activity feeds, diffs, pause, and retry of some transient failures. Its REST API is alpha and exposes Source, Session and Activity resources; sessions can be created against GitHub repositories, polled, messaged, and optionally configured to create a PR. API-created sessions auto-approve plans unless `requirePlanApproval=true` is supplied.
+
+**Implication:** Jules is a credible coding-agent adapter candidate and a stronger competitor than a simple CLI runner. Its API alpha status and approval defaults need explicit handling. Public docs reviewed here do not establish a cross-provider product goal/evidence ledger; this is an open comparison question, not a confirmed absence.
+
+### Updated overlap assessment
+
+| Capability | Assessment |
+|---|---|
+| Natural-language task intake and plan-before-code | Available in Jules and other coding products |
+| Multi-stage workflows, parallel agents and subagent verification | Available in GitHub Copilot dynamic workflows |
+| Multi-engine repository automations | Available in GitHub Agentic Workflows |
+| Cross-surface repository/user memory | Available within Copilot's ecosystem |
+| Pause, resume, approval, retries and progress feeds | Available in multiple products |
+| Provider-neutral goal/requirement/evidence model across releases and external systems | Potential wedge; not validated |
+| Evidence freshness and requirement-level release readiness | Potential wedge; hands-on tests required |
+| Runtime feedback linked to original requirements | Potential wedge; investigate further |
+
+Do not infer that a competitor lacks a capability because its public documentation does not describe it. Test the product directly.
+
+## 10. User-workflow signals — 2026-11-02
+
+A recent r/ClaudeCode discussion includes a commenter who describes themselves as a non-developer building a complex business website. Their workflow uses a master design document, Claude to refine and oversee a ticket system, scheduled Codex work to implement tickets, Claude to review, and human testing/bug reports to drive the next cycle. Other comments describe wiki/meeting-note ingestion, research/review loops, deterministic gates, separate worktrees and independent diff review.
+
+This resembles the intended AgentRelay experience, but also shows that users can approximate it manually with existing tools. It is a qualitative lead, not market validation: the discussion is self-selected and does not establish prevalence or willingness to pay.
+
+Sources:
+- [r/ClaudeCode: orchestrating multiple coding agents](https://www.reddit.com/r/ClaudeCode/comments/1x3a7ni/how_do_you_guys_orchestrate_multiple_coding/)
+- [r/ClaudeCode: community discussion of workflows](https://www.reddit.com/r/ClaudeCode/comments/1tkjy4u/claude_code_dropped_workflows/)
+
+## 11. Updated differentiation hypothesis
+
+The strongest testable hypothesis is a **provider-neutral product-state and evidence layer** that preserves the user's approved outcome and connects requirements, decisions, plans, code changes, verification evidence, releases and operational feedback across tools.
+
+It should answer which approved requirement a task serves; what code changed and against which commit; which check ran in which environment; whether evidence is still current; what remains unverified; why the plan changed; whether a PR/merge/deployment actually happened; and what should happen next.
+
+This is not yet a moat. It becomes valuable only if users prefer the workflow and AgentRelay measurably reduces coordination effort or improves outcomes.
+
+## Sources reviewed on 2026-11-02
+
+- [GitHub Copilot dynamic workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/dynamic-workflows)
+- [Using dynamic workflows](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-dynamic-workflows)
+- [GitHub Agentic Workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-github-agentic-workflows)
+- [GitHub Copilot Memory](https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory)
+- [Jules getting started](https://jules.google/docs/)
+- [Jules running tasks](https://jules.google/docs/running-tasks/)
+- [Jules plan review](https://jules.google/docs/review-plan/)
+- [Jules errors and failures](https://jules.google/docs/errors/)
+- [Jules REST API](https://jules.google/docs/api/reference/)
+- [W3C PROV-O](https://www.w3.org/TR/prov-o/)
+- [Temporal agent memory and state](https://docs.temporal.io/ai/featured/memory-state-stripe)
+- [Temporal Workflows](https://docs.temporal.io/workflows)
+- [OpenTelemetry GenAI agent spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)
+- [OpenTelemetry GenAI spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md)

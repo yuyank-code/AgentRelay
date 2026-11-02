@@ -80,3 +80,25 @@ Anthropic's current Agent SDK documentation states that third-party products mus
 - What audit retention, export, and deletion guarantees are required?
 - How are untrusted project instructions distinguished from user-approved policy?
 - How should production monitoring and runtime data be filtered before entering model context?
+
+
+## Telemetry and evidence-content controls — 2026-11-02
+
+OpenTelemetry's current GenAI semantic conventions warn that prompts, completions, tool definitions, tool-call arguments/results, memory queries and memory records may contain sensitive or personal information. They recommend not capturing model instructions, inputs or outputs by default; where content retention is required, store it externally with separate access controls and put references on spans. Content capture should require explicit opt-in.
+
+AgentRelay should:
+- keep telemetry metadata-only by default (operation, provider, model, run ID, duration, token/cost estimate, status and retry count);
+- never treat a trace backend as an approved repository or prompt archive;
+- redact secrets, personal data, signed URLs, source fragments and environment values before logging;
+- store raw prompts, tool inputs/outputs, diffs and screenshots only as separately permissioned artifacts with retention controls;
+- use references and cryptographic digests in traces rather than full payloads;
+- make content capture project-scoped, time-bounded, auditable and explicitly enabled;
+- separate evidence retention from telemetry retention and user-facing project-history retention;
+- review adapter logs for accidental secret duplication.
+
+The GenAI conventions are currently marked Development. Pin the schema version and treat it as telemetry interoperability guidance, not a stable product data model.
+
+Sources:
+- [OpenTelemetry GenAI spans and content capture](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md)
+- [OpenTelemetry GenAI agent spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)
+- [OpenTelemetry GenAI events](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-events.md)

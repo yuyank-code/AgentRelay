@@ -153,3 +153,57 @@ Do not assume all products can be compared under identical billing or model cons
 6. **Operational feedback:** inject a post-release defect signal and verify that it becomes a proposed maintenance task linked to the affected requirement/release rather than silently changing product scope.
 
 The primary outcome should be **time and cost to a verified product outcome with a measured amount of human coordination**, not number of agents, number of generated tasks, or PR count.
+
+
+## 11. New baselines and workflow validation — 2026-11-02
+
+### Stronger competitor baselines
+
+When account access permits, add:
+- **GitHub Copilot dynamic workflows:** split a goal into tasks, delegate independent work, pass structured outputs, use a reviewer subagent, pause at a human checkpoint, and resume. Measure what durable product state must be maintained outside the workflow definition/run.
+- **GitHub Agentic Workflows:** create a Markdown repository automation with a supported engine, read-only defaults, safe outputs and run-level cost tracking.
+- **GitHub Copilot Memory:** test cross-surface repository/user memory, citations, staleness and the difference between memory and explicit instructions.
+- **Google Jules:** run plan-before-code, require plan approval with `requirePlanApproval=true`, send mid-task feedback, inspect activities and test retry/failure handling through the REST API. Record alpha status and API version.
+- Continue the Shep and Factory comparison. Do not infer feature absence from public docs alone.
+
+### User-workflow research
+
+Community discussions reviewed on 2026-11-02 contain examples of solo builders and engineers manually combining a master design document, ticket board, wiki, scheduled coding-agent runs, manager/reviewer agents, independent checks and human acceptance. Treat these as qualitative leads, not validation.
+
+Interview 5–10 solo builders or developers who have used coding agents on real projects. Ask them to reconstruct their last project:
+- What did they want to ship?
+- Which tools and agents did they use?
+- What work did they personally coordinate between sessions?
+- What context or decisions had to be repeated?
+- How did they know a task or product requirement was actually done?
+- What happened when the plan changed or an agent failed?
+- Which current product did they try instead?
+- What would they trust an AI manager to do without approval?
+- What would they refuse to delegate?
+- What measurable time, cost or quality improvement would justify adoption?
+
+Do not ask only whether they like AgentRelay. Record actual workarounds, artifacts, time spent, failures and existing spend.
+
+### Concierge / Wizard-of-Oz test
+
+Before building a broad autonomous system, run a concierge pilot with 3–5 real projects. Use existing agents and manual back-office coordination to simulate AgentRelay's goal/requirement/evidence ledger. Give the user a simple project status view and decision/escalation summaries. Measure whether the process removes prompt/context reconstruction and whether users trust the evidence enough to let the manager select the next routine task.
+
+If the manual service does not create clear value, more automation is unlikely to fix the product proposition.
+
+### Updated project-level benchmark
+
+Include:
+1. initial goal with missing or ambiguous requirements;
+2. clarification and approved product charter;
+3. architecture choice with explicit trade-offs;
+4. at least five dependent implementation tasks;
+5. a mid-project requirement change;
+6. a task that passes local tests but fails an end-to-end requirement;
+7. one agent interruption or provider substitution;
+8. stale evidence caused by a later commit;
+9. one external action with a simulated timeout after the effect succeeds;
+10. release candidate and post-release defect signal.
+
+Compare AgentRelay with a strong single-agent workflow and the best available native workflow (GitHub dynamic workflows, Jules, Shep or Factory). Keep budgets and acceptance criteria comparable and document unavoidable differences.
+
+Primary outcome: time/cost to a verified product outcome with measured human coordination—not agent, task or PR count.

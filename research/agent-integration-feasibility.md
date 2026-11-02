@@ -102,3 +102,48 @@ Every adapter should pass tests for:
 - [OpenHands Software Agent SDK](https://github.com/OpenHands/software-agent-sdk)
 - [OpenHands Automation Service](https://github.com/OpenHands/automation)
 - [A2A core concepts](https://a2a-protocol.org/latest/topics/key-concepts/)
+
+
+## 2026-11-02 integration refresh: Jules and GitHub workflows
+
+### Google Jules REST API
+
+The official Jules REST API quickstart currently labels the API alpha/experimental. Its resource model is:
+- **Source:** connected input source such as a GitHub repository; the Jules GitHub app must first be installed.
+- **Session:** continuous unit of work with a prompt and source context.
+- **Activity:** item within a session, including plan generation, user messages and agent progress.
+
+The API quickstart documents listing sources, creating a repository/branch-backed session, polling sessions and activities, sending follow-up messages, and approving a plan. An optional `AUTO_CREATE_PR` mode can create a PR. API-created sessions auto-approve the plan unless `requirePlanApproval=true` is set.
+
+**Adapter assessment:** Jules is a practical candidate because it exposes an official REST interface rather than requiring browser automation. Alpha status requires schema/version guards and a fallback. AgentRelay must explicitly set plan approval behavior according to the user's policy; provider defaults must not silently bypass it. Jules session/activity history is not AgentRelay's canonical product state.
+
+### GitHub Copilot dynamic workflows
+
+GitHub documents dynamic workflows through the Copilot app, CLI and SDK. They support sequential/parallel steps, agent delegation, structured outputs, checkpoints and resumable runs. They are better treated as an **external workflow capability and competitor baseline** than as a simple coding-agent adapter.
+
+Potential future integration:
+- generate or maintain a repository workflow definition;
+- trigger through a supported Copilot SDK/CLI route;
+- import structured outputs and trace references;
+- keep AgentRelay's goal/requirement/evidence records authoritative.
+
+Before integrating, verify the exact SDK entry points, authentication, plan availability, cancellation semantics, data visibility and programmatic run-state access. Do not assume every local CLI control is exposed through a hosted API.
+
+### GitHub Agentic Workflows
+
+GitHub Agentic Workflows support Copilot, Claude, Codex and Gemini engines and are defined in Markdown with permissions, network configuration and safe outputs. Current docs describe read-only defaults, secrets held in downstream jobs, firewalled Actions environments and threat detection.
+
+Prefer reusing these repository-native automations for recurring repo chores where they fit. AgentRelay should not rebuild an equivalent scheduler/security layer without a cross-system product-management requirement.
+
+### Adapter requirements reinforced by this review
+
+Every adapter must declare operation types, workspace ownership, repository/branch binding, plan approval defaults, follow-up/pause/resume/cancel/timeout support, structured and raw events, PR/branch side effects, authentication/billing/terms, quota, API stability and unsupported capabilities. Preserve raw provider IDs and events. Do not normalize providers into a lowest-common-denominator prompt interface.
+
+### Sources reviewed 2026-11-02
+
+- [Jules REST API quickstart](https://jules.google/docs/api/reference/)
+- [Jules plan review](https://jules.google/docs/review-plan/)
+- [Jules running tasks](https://jules.google/docs/running-tasks/)
+- [Jules errors and failures](https://jules.google/docs/errors/)
+- [GitHub Copilot dynamic workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/dynamic-workflows)
+- [GitHub Agentic Workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-github-agentic-workflows)
