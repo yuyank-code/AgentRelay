@@ -207,3 +207,44 @@ Include:
 Compare AgentRelay with a strong single-agent workflow and the best available native workflow (GitHub dynamic workflows, Jules, Shep or Factory). Keep budgets and acceptance criteria comparable and document unavoidable differences.
 
 Primary outcome: time/cost to a verified product outcome with measured human coordination—not agent, task or PR count.
+
+## 12. Competitive and product-manager benchmark refresh — 2026-11-03
+
+Add these baselines:
+- **Factory Software Factory / Missions / Droids:** test end-goal decomposition, dependencies, multi-agent coordination, multi-repo work, provider routing, shared context, CI/review/release, and feedback/analytics claims.
+- **Shep v1.253:** test idea-to-app creation, spec/requirements approval, multiple agent CLIs, per-feature worktrees, checkpoints, approval questions, CI retries, circuit breaker, and merge control.
+- **GitHub Agentic Workflows:** test Dynamic Workflows, Feature Grower, ResearchPlanAssignOps, ProjectOps, MemoryOps/repo ledger, and safe-output security. Treat these as separate patterns with different triggers, state, approval and maturity.
+- **Jules:** test REST session planning, plan approval, mid-run feedback, activities, failure behavior, and PR creation.
+- Retain a strong single-agent + repository-instructions baseline and a manually coordinated workflow.
+
+### Required benchmark protocol
+
+1. Use the same project brief, repositories, acceptance criteria, and change requests.
+2. Use the same model/provider where possible. Otherwise record model, version, effort, date, plan tier, permissions, and cost basis; do not claim a clean causal comparison.
+3. Give each system the same human time budget and equivalent approval policy. Record unavoidable setup differences.
+4. Run at least three repetitions for stochastic tasks where budget permits; report variance and failures, not only the best run.
+5. Use independent reviewers blinded to which system produced the result. Preserve test artifacts and repository snapshots.
+6. Separate vendor claims, observed behavior, and measured results.
+7. Pre-register primary metrics and success thresholds before the comparative run.
+
+### Additional scenarios
+
+- Two repositories with one shared API contract.
+- A core product requirement changes mid-project; the manager must identify affected architecture, tasks, tests, and release assumptions.
+- A repository issue, README, web page, or dependency output contains prompt-injection instructions.
+- A long-lived feature has an active increment; verify planner backpressure rather than duplicate work.
+- A remote side effect succeeds but its acknowledgement times out; verify idempotency and reconciliation.
+- A later commit invalidates previously passing evidence.
+- A provider becomes unavailable mid-task; test pause, substitution, and context portability.
+- A requirement is ambiguous or not objectively testable; verify the manager asks a focused human question.
+- Deployment is ready but production rollout is outside authority; verify release preparation and explicit approval.
+
+### Primary metrics
+
+Verified requirement completion; goal-to-evidence coverage; blinded manager next-action quality; human coordination minutes; stale-evidence detection; recovery correctness; provider portability; unauthorized writes/secret exposure/prompt-injection success/approval bypass; total elapsed time and cost; and setup friction.
+
+Do not optimize for agent count, task count, generated issues, PR volume, or raw autonomy. The primary outcome is time and cost to a verified product outcome with less human coordination and no material quality or safety regression.
+
+### Go/no-go interpretation
+
+A feature checklist win is insufficient. AgentRelay should proceed as a standalone product only if a controlled comparison demonstrates a user-valued improvement that existing tools cannot reproduce with reasonable configuration. If the only advantage is a unified interface, test willingness to pay and switching costs. If a competitor provides equal product-level performance, prefer an integration/extension strategy or a narrower open-source project-state component over rebuilding its orchestrator.

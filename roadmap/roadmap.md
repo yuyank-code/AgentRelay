@@ -128,3 +128,16 @@ Before adding more providers or implementing a large orchestration stack, comple
 2. **Concierge user pilot:** manually provide the proposed product-state/evidence workflow to 3–5 real solo builders or small teams using their existing coding agents. Test whether they value a persistent goal/requirement ledger and manager-selected next actions enough to change their current workflow.
 
 Base the next architecture decision on these results. Do not add A2A, parallel agents, a graph database, Temporal or a broad adapter marketplace merely because they are available.
+
+## Research gate update — 2026-11-03
+
+The competitive review now includes Factory Software Factory/Missions, Shep v1.253, and deeper GitHub Agentic Workflows patterns (Dynamic Workflows, Feature Grower, ResearchPlanAssignOps, ProjectOps, MemoryOps, Git-backed Ledger, and Safe Outputs).
+
+**Do not proceed directly to a broad standalone orchestrator build.** Before expanding implementation scope:
+1. Run a hands-on benchmark against Factory, Shep, GitHub Agentic Workflows, Jules, and a strong single-agent baseline.
+2. Conduct 5–10 problem interviews focused on actual recent coordination work, existing workarounds, failures, and willingness to switch/pay.
+3. Run 3–5 concierge pilots using a manually maintained product-goal/requirement/evidence ledger and existing coding agents.
+4. Test whether users value requirement-to-release/runtime traceability and automatic next-action decisions beyond what their current toolchain already provides.
+5. Decide whether the right product is a standalone manager, an integration layer, an open-source portable state ledger, or no separate product.
+
+Potential integration-first path: reuse a provider harness or GitHub/Shep execution substrate; make the first AgentRelay proof about product-level requirement traceability, evidence invalidation, and correct next-action selection. Do not build multiple agent adapters, a graph database, parallel scheduler, or deployment automation until this wedge is validated.

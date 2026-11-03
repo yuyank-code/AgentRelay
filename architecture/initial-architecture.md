@@ -249,3 +249,38 @@ For a local first vertical slice, an explicit state machine and relational event
 ### Observability and privacy
 
 OpenTelemetry's current GenAI conventions include workflow, agent, tool and evaluation spans, but are marked Development. Use them as an instrumentation mapping, pin versions and keep AgentRelay's domain schema independent. Raw model messages and tool arguments/results can contain sensitive data; do not copy them into telemetry by default. Store sensitive artifacts separately with scoped access and record references/digests in traces.
+
+## Execution substrate strategy — 2026-11-03
+
+Do not assume AgentRelay must own the coding-agent runtime or generic workflow engine. Current options include provider-managed harnesses (Claude Agent SDK, OpenAI Agents API/Codex harness, Jules), local-first multi-agent orchestration (Shep), and repository workflow infrastructure (GitHub Agentic Workflows).
+
+### Recommended boundary
+
+AgentRelay control plane:
+- canonical product goals, requirements, decisions, architecture and release intent;
+- product-level plan versions and next-action selection;
+- evidence-to-requirement traceability and staleness;
+- policy decisions, approvals, budgets, and escalation;
+- cross-provider/cross-tool project state and user experience.
+
+External execution substrates:
+- model-specific agent loops, sessions and context compaction;
+- shell/file editing, workspace isolation and native tool permissions;
+- provider-specific streaming, hooks, checkpoints and raw event formats;
+- generic CI/workflow scheduling where an existing system is adequate.
+
+### Adapter integration candidates
+
+- Claude Agent SDK for programmable local/provider Claude Code execution.
+- OpenAI Agents API when managed Codex harness sessions and hosted/self-hosted executor options are useful.
+- Jules REST API for asynchronous Google coding sessions; respect v1alpha status and set plan approval explicitly.
+- Shep as a possible local-first execution/orchestration integration or benchmark baseline; do not assume its internal state is a stable public API.
+- GitHub Agentic Workflows as an optional GitHub Actions workflow substrate; map run IDs, artifacts and checks into AgentRelay rather than duplicating its safe-output and job execution model.
+
+These are integration hypotheses. Validate auth terms, API stability, event semantics, local workspace access, cost, permissions, and cancellation behavior before implementation.
+
+### Required external-action contract
+
+For every action that changes a system outside the current isolated workspace, persist a stable AgentRelay action ID and idempotency key; target system/resource; intended effect and bounded parameters; policy decision and required approval; expected external state/version; request/response or provider operation reference; reconciliation query and observed final state; and whether the action is confirmed, failed, unknown, or needs human resolution.
+
+If a request times out after the remote effect may have succeeded, query the external system before retrying. Never equate a network timeout with proof that the effect did not occur.

@@ -89,3 +89,17 @@ Architecture research now separates product/domain state, execution state, exter
 ## Publishing history — 2026-11-02
 
 Added the product-state/evidence model and ADR-0004; refreshed competitor and integration research for GitHub Copilot dynamic workflows, Agentic Workflows, Copilot Memory and Jules; added user-workflow signals, a concierge validation experiment, Temporal/provenance guidance and telemetry privacy controls. All changes from this run are published together in one Git commit.
+
+## New findings from 2026-11-03
+
+The competitive stress test materially weakens the original differentiation hypothesis:
+- Factory's current Software Factory and Missions positioning covers model-independent, multi-agent development across planning, implementation, validation, release, integrations, operational signals and multi-repository work.
+- Shep v1.253 documents local-first multi-provider execution, idea-to-app startup, spec/requirements planning, worktrees, per-step checkpoints, approvals, CI auto-fix retries and human-controlled merge.
+- GitHub Agentic Workflows documents dynamic workflows, iterative Feature Grower, ResearchPlanAssignOps, ProjectOps, MemoryOps, a Git-backed Ledger working draft, and a layered security architecture.
+- OpenAI's Agents API provides a managed Codex harness with session orchestration, context compaction, recovery and hosted/self-hosted execution options.
+
+Feature-level differentiators (agent adapters, memory, task planning, parallel execution, approvals, CI recovery) are not defensible alone. The only candidate to test is a portable, semantically typed product-goal/evidence control plane across providers, code hosts and lifecycle systems. Factory already approaches this claim in its public positioning, so no market gap is established.
+
+The next gate is hands-on competitor benchmarking plus 5–10 problem interviews and 3–5 concierge pilots. Prefer integrating existing execution substrates until evidence shows a standalone runtime is necessary.
+
+Research sources and conclusions are recorded in [2026-11-03 research update](2026-11-03-research-update.md).

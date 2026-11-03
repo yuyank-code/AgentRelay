@@ -241,3 +241,63 @@ This is not yet a moat. It becomes valuable only if users prefer the workflow an
 - [Temporal Workflows](https://docs.temporal.io/workflows)
 - [OpenTelemetry GenAI agent spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)
 - [OpenTelemetry GenAI spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md)
+
+## 12. Competitive stress test — 2026-11-03
+
+**Conclusion:** the proposed feature-level differentiation is weaker than previously assessed. Current public documentation for Factory, Shep, and GitHub Agentic Workflows overlaps with most of AgentRelay's stated capabilities. This is desk research, not a hands-on product test.
+
+### Factory is the strongest broad product-level competitor
+
+Factory's current Software Factory positioning covers enterprise intent and codebase context through planning, building, validation, release, continuous signals, model routing, mission control, persistent agent compute, analytics, and integrations with engineering systems. Its Missions product describes end-goal decomposition into dependent subtasks, resource allocation, parallel Droids, progress coordination, multi-repository migrations, and multi-PR feature delivery. These are vendor-described capabilities; public marketing does not independently establish reliability or customer outcomes.
+
+Sources: [Factory Software Factory](https://factory.com/), [Factory Missions](https://factory.com/product/missions), [Factory IDE](https://factory.com/product/ide).
+
+### Shep is a strong local-first individual-developer baseline
+
+The current Shep site identifies version 1.253 and describes an MIT-licensed, local-first orchestrator. Its published flow includes starting an app from an idea, optional spec generation with requirements/research/plan, multiple coding-agent CLIs and model providers, a worktree per feature, per-step checkpoints, approval questions, CI monitoring, automatic fixes with configurable retries, circuit breakers, and human-controlled merge. It says local state is held in SQLite under the user's home directory.
+
+This substantially overlaps local-first, bring-your-own-agent, context continuity, spec, approval, recovery, and developer-experience claims. The exact depth of its product-wide requirement traceability and release/runtime feedback should be tested hands-on rather than inferred from what its public page does not mention.
+
+Source: [Shep product documentation](https://shep.bot/).
+
+### GitHub Agentic Workflows now covers several patterns central to AgentRelay
+
+The official documentation describes:
+- **Dynamic Workflows:** deterministic program-defined stages combined with agent reasoning, sequential/parallel work, structured handoffs, subagent verification, user checkpoints, monitoring, pause/cancel/resume, and approximate agent/credit/time limits. Reusing a workflow definition does not share its run history or saved progress.
+- **Feature Grower:** a recurring loop that reassesses a long-lived feature against its plan, current repository state, closed child issues, and advisory memory, then creates only the next useful implementation increment. An open-child gate supplies backpressure.
+- **ResearchPlanAssignOps:** research findings become issues, a planner turns them into sub-issues with acceptance criteria, coding agents implement them, and a human reviews/merges. The documented pattern keeps human checkpoints at each transition.
+- **ProjectOps:** AI-assisted project-board summaries, routing, and field updates. The documentation explicitly says maintainers remain responsible for planning and prioritization.
+- **MemoryOps and Git-backed Ledger:** cache, repository-branch and comment memory, plus a working-draft append-only JSONL ledger with disposable projections and separate trusted persistence.
+- **Security architecture:** isolated agent jobs, scoped permissions, buffered safe outputs, separate trusted jobs, network controls, and threat detection.
+
+Sources: [Dynamic workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/dynamic-workflows), [Feature Grower](https://github.github.com/gh-aw/patterns/feature-grower/), [ResearchPlanAssignOps](https://github.github.com/gh-aw/patterns/research-plan-assign-ops/), [ProjectOps](https://github.github.com/gh-aw/patterns/project-ops/), [MemoryOps](https://github.github.com/gh-aw/patterns/memory-ops/), [Git-backed Ledger](https://github.github.com/gh-aw/specs/repo-memory-ledger-specification/), [Security architecture](https://github.github.com/gh-aw/introduction/architecture/).
+
+### Updated overlap matrix
+
+| Proposed AgentRelay differentiator | Current competitive evidence | Assessment |
+|---|---|---|
+| Multi-provider coding-agent adapters | Shep, Factory, GitHub Agentic Workflows | Weak alone |
+| Persistent context/memory | Factory, Shep local state, Copilot Memory, GitHub MemoryOps/repo ledger | Weak; generic memory is commoditized |
+| Spec/requirements and task planning | Shep spec mode, Factory Missions, GitHub ResearchPlanAssignOps/Feature Grower | Weak to moderate; product-wide semantics need testing |
+| Parallel work and isolated workspaces | Shep worktrees, Factory Missions, GitHub agent workflows | Weak |
+| CI-driven recovery and checkpoints | Shep, provider harnesses, GitHub workflows | Weak |
+| Human approval and policy controls | Shep, GitHub safe outputs, Codex/Claude controls, Factory governance | Weak unless enforcement is independently stronger and cross-system |
+| Product goal-to-requirement-to-release/runtime evidence graph | Pieces exist across Factory, GitHub Projects/Actions, CI and telemetry; no unified comparative test completed | Candidate, not proven |
+| Cross-provider, cross-code-host, cross-lifecycle continuity under user control | Plausible; Factory is broad and GitHub is deep within its ecosystem | Candidate, not proven |
+| Simpler manager UX for solo builders/non-specialist product owners | Not established by public docs; Shep and Factory already offer idea-to-work flows | Candidate, requires interviews |
+
+### Positioning correction
+
+Do not claim AgentRelay is unique because it is agent-agnostic, persistent, evidence-based, safe, or autonomous. These are table stakes or are directly claimed by competitors.
+
+The only plausible wedge worth testing is a **user-owned, provider- and tool-neutral product-goal control plane** that maintains semantically typed requirements, decisions, acceptance evidence, releases, and operational feedback across more than one code host and execution system, while presenting a low-friction experience to an individual builder or small team.
+
+Factory's published Software Factory positioning already approaches this broad lifecycle. GitHub's patterns cover much of the repository-centered loop. This wedge is not defensible until a hands-on benchmark demonstrates an advantage in product-level traceability, cross-system portability, human coordination effort, or total cost.
+
+Do not infer competitor feature absence from public documentation. Record untested items as unknown.
+
+### Evidence quality and remaining gaps
+
+Vendor pages are primary evidence of vendor claims, not independent proof of quality or adoption. GitHub docs are primary evidence of documented workflow semantics and preview limitations. The 2026-09-23 empirical study of 1,248 GitHub Agentic Workflow files across 276 repositories found that 9.4% explicitly addressed prompt-injection defense; this is a sample-specific workflow-authoring result, not a universal prevalence rate. No user interviews, paid conversion tests, or hands-on competitor trials have yet been completed.
+
+Source: [Specifying and Maintaining Agentic Workflows: An Empirical Study](https://arxiv.org/abs/2609.27263), 2026-09-23.

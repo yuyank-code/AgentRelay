@@ -102,3 +102,26 @@ Sources:
 - [OpenTelemetry GenAI spans and content capture](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md)
 - [OpenTelemetry GenAI agent spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)
 - [OpenTelemetry GenAI events](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-events.md)
+
+## Execution and memory security lessons — 2026-11-03
+
+GitHub Agentic Workflows provides a useful reference architecture for separating untrusted agent execution from trusted external writes:
+- The agent job receives only the read permissions and capabilities it needs.
+- Agent-requested external writes are buffered as structured safe-output artifacts rather than applied directly with broad credentials.
+- A separate trusted job validates and applies the permitted effect.
+- Persistence revalidates the proposed transaction against trusted configuration and current canonical state.
+- Network, filesystem, tool, and credential boundaries are enforced outside the model's own instructions.
+
+AgentRelay should adopt the principle, not assume GitHub's implementation can simply be copied:
+1. Never give an untrusted agent direct write access to the canonical product ledger or broad provider credentials.
+2. Treat agent-produced memory updates, plan revisions, approvals, and external actions as proposals until validated by deterministic policy.
+3. Keep trusted persistence/action credentials outside the agent workspace.
+4. Revalidate a queued write immediately before applying it; use expected-version/expected-head checks.
+5. Use idempotency keys and external-state reconciliation for retried side effects.
+6. Keep secrets out of project memory, prompts where avoidable, telemetry, and evidence artifacts.
+7. A hash proves that bytes match a digest; it does not prove who authored the record or that the record's claims are true.
+8. AI threat detection is defense in depth, not a security proof. Fail closed for high-risk effects when detection is unavailable or inconclusive.
+
+The GitHub Agentic Workflows Git-backed Ledger working draft separates read-only agent projections, validated transaction artifacts, and trusted persistence. It states that an accepted request is not durable until persistence succeeds and that ledger integrity hashes do not authenticate authorship or truth.
+
+Sources: [GitHub security architecture](https://github.github.com/gh-aw/introduction/architecture/), [Git-backed Ledger v1.1 working draft](https://github.github.com/gh-aw/specs/repo-memory-ledger-specification/), [Threat detection](https://github.github.com/gh-aw/reference/threat-detection/), [OpenAI sandbox security](https://developers.openai.com/api/docs/guides/agents-api/environments/security), [Temporal agent gateway idempotency](https://docs.temporal.io/ai/featured/agent-gateway-nexus).

@@ -147,3 +147,39 @@ Every adapter must declare operation types, workspace ownership, repository/bran
 - [Jules errors and failures](https://jules.google/docs/errors/)
 - [GitHub Copilot dynamic workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/dynamic-workflows)
 - [GitHub Agentic Workflows](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/about-github-agentic-workflows)
+
+## 2026-11-03 integration refresh: Codex Agents API and workflow substrates
+
+### OpenAI Agents API / managed Codex harness
+
+OpenAI's current Agents API documentation describes a managed Codex harness. OpenAI manages sessions, orchestration, context compaction, and recovery; the application supplies tools and chooses the execution environment. Agents can operate in hosted or self-hosted sandboxes, execute code, edit files, connect to MCP servers, and produce artifacts. Model usage and tools are billed at applicable API rates.
+
+For self-hosted execution, the documented architecture runs codex exec-server in a user-controlled laptop/container/remote sandbox. The executor establishes an outbound WebSocket connection and uses a separate restricted environment key; the application API key should remain outside the sandbox. The environment key can be read by generated code, so it is a scoped capability, not a harmless identifier.
+
+This creates two Codex adapter paths:
+1. **Local Codex CLI/app-server:** when the user wants the local agent harness and workspace to remain on their machine.
+2. **Agents API + hosted/self-hosted executor:** when AgentRelay needs managed sessions, events, webhooks, and a separately provisioned execution environment, with API billing and OpenAI-managed harness behavior.
+
+AgentRelay should not rebuild session management, context compaction, or agent tool loops if a supported harness already provides them. It should still own product requirements, cross-provider project state, evidence-to-requirement mapping, and product-level next-action decisions.
+
+Sources: [OpenAI Agents API](https://developers.openai.com/api/docs/guides/agents-api/overview), [Codex as a platform](https://developers.openai.com/blog/codex-as-a-platform), [Self-hosted sandboxes](https://developers.openai.com/api/docs/guides/agents-api/environments/self-hosted), [Sandbox security](https://developers.openai.com/api/docs/guides/agents-api/environments/security).
+
+### GitHub Agentic Workflows as an optional execution adapter
+
+GitHub Agentic Workflows supplies a GitHub Actions-based substrate for agent workflows, including supported Copilot, Claude Code, Codex, and Gemini engines, deterministic steps, structured safe outputs, and security boundaries. AgentRelay should evaluate integration rather than reimplementing its workflow runner. A possible adapter could dispatch a repository workflow, correlate workflow/run IDs, consume structured artifacts and checks, and map results into AgentRelay's product ledger. This is an integration hypothesis; verify API behavior, permissions, preview status, and artifact availability before committing to it.
+
+Source: [GitHub Agentic Workflows architecture](https://github.github.com/gh-aw/introduction/architecture/).
+
+### Claude Agent SDK and Jules remain provider-specific
+
+Claude Agent SDK documentation describes a programmable Claude Code harness in Python and TypeScript with built-in tools, permissions, sessions, hooks, approvals, structured output, cost/usage tracking, and OpenTelemetry. Keep the existing subscription-authentication/third-party distribution caveat: a local user's signed-in CLI use and a commercial product distributing subscription authentication are not automatically the same permission case.
+
+Jules REST API sessions expose plan approval, activities, feedback and status. API-created sessions auto-approve plans unless requirePlanApproval=true; set it explicitly whenever AgentRelay's policy requires a plan gate. The API remains documented as v1alpha.
+
+Sources: [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview), [Claude SDK approvals](https://code.claude.com/docs/en/agent-sdk/handling-approvals), [Jules sessions API](https://jules.google/docs/api/reference/sessions).
+
+### Adapter design consequence
+
+The adapter contract must represent capability and policy differences, not just a common prompt/response: auth and billing route; local/provider-hosted/self-hosted execution; workspace isolation; session create/resume/fork/cancel; event cursor/replay; approval semantics; artifact/patch references; provider limits/model/usage/cost; durability/recovery; and exact permissions/secrets exposed to the executor.
+
+Do not silently emulate an unsupported capability. Expose it as unsupported and let the planner select another executor or ask for intervention.

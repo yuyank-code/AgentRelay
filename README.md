@@ -95,3 +95,7 @@ Start with one repository and one coding agent to prove the manager loop. Add ad
 ## Research sources
 
 See the dated research documents for the current source register and conclusions. Key primary references include [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview), [Codex CLI](https://developers.openai.com/codex/cli), [Gemini CLI headless mode](https://geminicli.com/docs/cli/headless/), [OpenHands Software Agent SDK](https://github.com/OpenHands/software-agent-sdk), [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence), [A2A](https://a2a-protocol.org/latest/), [MCP](https://modelcontextprotocol.io/specification/2025-11-25), and [Temporal workflows](https://docs.temporal.io/workflows).
+
+## Latest competitive finding — 2026-11-03
+
+The latest research does **not** establish a defensible market gap yet. Factory, Shep, and GitHub Agentic Workflows overlap with most proposed capabilities. The next step is hands-on benchmarking and real-user validation before expanding implementation. See the [November 3 research update](research/2026-11-03-research-update.md) and [ADR-0005](decisions/ADR-0005-differentiation-validation-gate.md).

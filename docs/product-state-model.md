@@ -140,3 +140,20 @@ Do not capture raw prompts, model outputs, tool arguments or tool results into t
 - [OpenTelemetry GenAI agent spans](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)
 - [OpenTelemetry GenAI spans and content capture](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md)
 - [OpenTelemetry GenAI events](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-events.md)
+
+## 10. What the ledger is—and is not — 2026-11-03
+
+GitHub Agentic Workflows now documents cross-run memory and a working-draft Git-backed Ledger: append-only JSONL records, content hashes, parent relationships, disposable SQLite projections, bounded storage, concurrent-head reconstruction, and separate trusted persistence. Therefore, "store append-only project memory in Git" is not itself a novel AgentRelay capability.
+
+AgentRelay's product-state model must be distinguished by domain semantics and evidence relationships, not by the choice of JSONL, SQLite, PostgreSQL, or Git:
+- A generic memory ledger stores records; AgentRelay must represent approved goals, versioned requirements, assumptions, decisions, acceptance checks, plan revisions, artifacts, releases, and operational signals as typed entities.
+- A record's integrity hash does not authenticate its author, establish its truth, or prove the linked requirement is satisfied.
+- A memory projection is a query convenience, not canonical truth.
+- Agent-generated state changes are untrusted proposals. A trusted service validates and commits them.
+- Evidence is valid only for the exact requirement version, commit/tree, environment, test/check version, and release to which it refers.
+- A later change to a relevant dependency or artifact can invalidate prior evidence even when the original test result remains immutable.
+- External systems remain authoritative for their own state; AgentRelay stores correlation IDs, snapshots, and evidence references, then reconciles before retrying actions.
+
+The candidate differentiator is a verified semantic trace from user goal to real product outcome—not a novel storage engine or memory format.
+
+Reference: [GitHub Agentic Workflows Git-backed Ledger Specification](https://github.github.com/gh-aw/specs/repo-memory-ledger-specification/).
