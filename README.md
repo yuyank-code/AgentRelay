@@ -63,6 +63,7 @@ Research and product definition. No production implementation is claimed.
 
 - [Product vision](docs/product-vision.md)
 - [Product brief](docs/product-brief.md)
+- [Product state and evidence model](docs/product-state-model.md)
 - [Initial architecture](architecture/initial-architecture.md)
 - [Research overview](research/README.md)
 - [Competitive landscape](research/competitive-landscape.md)
@@ -99,3 +100,8 @@ See the dated research documents for the current source register and conclusions
 ## Latest competitive finding — 2026-11-03
 
 The latest research does **not** establish a defensible market gap yet. Factory, Shep, and GitHub Agentic Workflows overlap with most proposed capabilities. The next step is hands-on benchmarking and real-user validation before expanding implementation. See the [November 3 research update](research/2026-11-03-research-update.md) and [ADR-0005](decisions/ADR-0005-differentiation-validation-gate.md).
+
+
+## Latest competitive finding — 2026-11-04
+
+Cursor Cloud Agents/Automations and Anthropic Claude Managed Agents now document durable sessions, multi-agent workflows, outcome grading, memory, scheduling, approvals, and hosted/self-hosted execution. OpenAI is also positioning Codex as an embeddable harness for domain-specific products. The candidate wedge remains a portable product-goal/evidence control plane across providers, but it is not proven. See the [November 4 research update](research/2026-11-04-research-update.md), [product state model](docs/product-state-model.md), and [ADR-0006](decisions/ADR-0006-provider-policy-and-acceptance-boundary.md).

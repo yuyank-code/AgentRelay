@@ -183,3 +183,60 @@ Sources: [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview),
 The adapter contract must represent capability and policy differences, not just a common prompt/response: auth and billing route; local/provider-hosted/self-hosted execution; workspace isolation; session create/resume/fork/cancel; event cursor/replay; approval semantics; artifact/patch references; provider limits/model/usage/cost; durability/recovery; and exact permissions/secrets exposed to the executor.
 
 Do not silently emulate an unsupported capability. Expose it as unsupported and let the planner select another executor or ask for intervention.
+
+
+## 2026-11-04 integration update — Cursor, Claude Managed Agents, and provider semantics
+
+### Cursor Cloud Agents API v1 (public beta)
+
+Official reference: https://cursor.com/docs/cloud-agent/api/endpoints
+
+- `POST /v1/agents` creates a durable Cloud Agent and enqueues its initial run.
+- `POST /v1/agents/{id}/runs` sends a new prompt; delivery can be `steer` for an active turn or `queued` when no turn can accept it.
+- `GET /v1/agents/{id}/runs` lists runs; `GET /v1/agents/{id}/runs/{runId}` retrieves status and terminal result.
+- `GET /v1/agents/{id}/runs/{runId}/stream` emits SSE events. The stream is scoped to one run and does not replay prior runs.
+- Create requests can choose a model, plan/agent mode, repositories and starting refs, cloud/pool/machine execution, environment variables, MCP servers, and custom subagents.
+- Repositories can be connected from GitHub, GitLab, Bitbucket Cloud, and Azure DevOps.
+- API v1 is public beta; docs say webhooks are coming soon (legacy v0 still documents them).
+
+Adapter caveats:
+- A durable agent can have multiple runs; store both IDs.
+- Git branch/PR information returned in a run is documented as a per-agent snapshot, not per-run. Attribute work using run IDs and event data, then verify branch/commit state in the source-control provider.
+- Because SSE does not replay prior runs, reconnect logic must retrieve run status and reconcile event history/artifacts where available.
+- Cursor Automations are billed based on cloud-agent usage; capture actual usage and billing identity.
+- Automation memories persist across runs, but Cursor warns that untrusted input can create misleading or malicious memories.
+
+Related docs: https://cursor.com/docs/cloud-agent/automations · https://cursor.com/docs/cloud-agent/security-network · https://cursor.com/docs/cloud-agent/self-hosted
+
+### Anthropic Claude Managed Agents (beta)
+
+Official docs: https://platform.claude.com/docs/en/managed-agents/overview
+
+Claude Managed Agents provides agent definitions, environments, stateful sessions, server-side event history, cloud or self-hosted sandboxes, memory stores, budgets, webhooks, scheduled deployments, multi-agent subagents, dynamic workflows, and outcome rubrics.
+
+Key details:
+- Requires the `managed-agents-2026-04-01` beta header and Claude API authentication.
+- Dynamic workflows are agent-written programs that can run many agents in phases and pass results programmatically.
+- A workflow can start in the same turn without a separate approval step.
+- A workflow result of `completed` does not guarantee every child thread succeeded; inspect thread events.
+- Outcome rubrics use a separate context-window grader and can drive iterative revisions; this is a bounded artifact/outcome loop, not proof of whole-product completion.
+- Self-hosted sandboxes move tool execution to customer infrastructure, but tool inputs and outputs still flow through Managed Agents.
+- The platform currently states it is not eligible for Zero Data Retention or HIPAA BAA coverage.
+
+Additional docs: https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration · https://platform.claude.com/docs/en/managed-agents/workflow-runs · https://platform.claude.com/docs/en/managed-agents/define-outcomes · https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes
+
+### Claude Agent SDK local hosting
+
+Official docs: https://code.claude.com/docs/en/agent-sdk/hosting
+
+The SDK runs a Claude CLI subprocess per session. Transcripts, memory files, and workspace artifacts live on local disk by default and do not survive container restart or movement to another node. A SessionStore adapter is required for transcript persistence; memory and working-directory artifacts need separate storage. Third-party products may not offer claude.ai login or subscription rate limits without prior approval; use documented API-key auth unless approved.
+
+### OpenAI Codex app-server / SDK
+
+OpenAI's August 19, 2026 platform post recommends `codex exec` for bounded jobs, the Codex SDK for programmatic workflows, and app-server for persistent conversations, streaming, interruption, application tools, and approval handling. The host application owns its domain context, UI, tools, execution environment, and policy boundaries.
+
+### Normalize semantics, not just endpoint shapes
+
+Each adapter capability profile should record support and maturity for create, follow-up, steer, queue, pause, cancel, resume, event stream, replay, webhooks, polling, artifacts, Git attribution, cost, budgets, sandbox, network, secrets, and approval callbacks.
+
+Keep `provider_run_status` separate from `task_acceptance_status`. A successful provider terminal status is never sufficient to mark a requirement as verified.

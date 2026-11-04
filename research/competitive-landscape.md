@@ -301,3 +301,31 @@ Do not infer competitor feature absence from public documentation. Record untest
 Vendor pages are primary evidence of vendor claims, not independent proof of quality or adoption. GitHub docs are primary evidence of documented workflow semantics and preview limitations. The 2026-09-23 empirical study of 1,248 GitHub Agentic Workflow files across 276 repositories found that 9.4% explicitly addressed prompt-injection defense; this is a sample-specific workflow-authoring result, not a universal prevalence rate. No user interviews, paid conversion tests, or hands-on competitor trials have yet been completed.
 
 Source: [Specifying and Maintaining Agentic Workflows: An Empirical Study](https://arxiv.org/abs/2609.27263), 2026-09-23.
+
+
+## 2026-11-04 — Cursor Cloud Agents and Claude Managed Agents
+
+| Product/platform | Newly verified public capabilities | Competitive implication | Limits / unknowns |
+|---|---|---|---|
+| **Cursor Cloud Agents + Automations** | Public-beta v1 API for durable agents and runs; model selection; steer/queue follow-up; SSE run events; cloud, pool, or machine execution; multi-repository environments; GitHub/GitLab/Bitbucket Cloud/Azure DevOps; MCP/custom subagents; scheduled and event-driven automations; per-automation memory; PR creation; Sentry/PagerDuty triggers. | Very strong baseline for autonomous developer workflows and a plausible execution adapter. | v1 API is public beta; webhooks are documented as coming soon; SSE stream is run-scoped and does not replay old runs; Git branch/PR snapshot is per agent rather than per run. Product-goal portability beyond Cursor remains to be tested. |
+| **Anthropic Claude Managed Agents** | Beta managed harness with persistent sessions, cloud/self-hosted sandboxes, event history, memory stores, budgets, webhooks, scheduled deployments, subagents, dynamic workflows, and rubric-based outcome evaluation with iterative revisions. | A Claude-native product can provide much of the agent runtime, orchestration, outcome grading, and background execution without AgentRelay rebuilding it. | Claude-specific and beta; API authentication; not currently ZDR/HIPAA eligible. Dynamic workflow completion does not guarantee child-thread success, and a run can start without a separate approval step. |
+| **OpenAI Codex as platform / Agents API** | Open-source Codex harness; CLI, SDK, app-server; persistent threads, streamed events, interruption, tools, approvals, and provider-managed automatic review for supported requests. | Reinforces the product-control-plane / reusable-execution-harness split. | Codex remains provider-specific. Automatic review is limited to supported requests and incurs additional token usage. |
+
+### Revised differentiation assessment
+
+Agent launch, session continuity, multi-agent delegation, dynamic workflows, scheduling, persistent memory, model choice, artifact rubrics, retry loops, approvals, hosted/self-hosted sandboxes, and event-triggered automation are not defensible as standalone features.
+
+The candidate still worth testing is a **provider-neutral, user-owned product-goal and evidence layer** that stores approved intent, maps requirements to current implementation and release evidence, tracks evidence freshness, reconciles provider runs and external effects, replans across execution systems, and keeps authorization independent of provider-native reviewers.
+
+This is not a demonstrated gap. Factory, GitHub, Cursor, Shep, and provider platforms already cover important pieces. Hands-on comparison and user research are required.
+
+### Sources reviewed 2026-11-04
+
+- Cursor Cloud Agents API: https://cursor.com/docs/cloud-agent/api/endpoints
+- Cursor Automations: https://cursor.com/docs/cloud-agent/automations
+- Claude Managed Agents: https://platform.claude.com/docs/en/managed-agents/overview
+- Claude Managed Agents multi-agent orchestration: https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration
+- Claude Managed Agents outcomes: https://platform.claude.com/docs/en/managed-agents/define-outcomes
+- OpenAI Codex as a platform (2026-08-19): https://developers.openai.com/blog/codex-as-a-platform
+- OpenAI Agents API automatic review: https://developers.openai.com/api/docs/guides/agents-api/sessions/approvals
+- RoadmapBench: https://arxiv.org/abs/2605.15846

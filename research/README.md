@@ -1,7 +1,7 @@
 # AgentRelay Research Program
 
 **Started:** 2026-10-30  
-**Latest research update:** 2026-11-02  
+**Latest research update:** 2026-11-04  
 **Status:** Active
 
 ## Current product framing
@@ -40,6 +40,7 @@ Cross-agent handoff remains important, but it is a supporting capability rather 
 ## Current documents
 
 - [Product vision](../docs/product-vision.md)
+- [Product state and evidence model](../docs/product-state-model.md)
 - [Product brief](../docs/product-brief.md)
 - [Initial architecture](../architecture/initial-architecture.md)
 - [Competitive landscape](competitive-landscape.md)
@@ -48,6 +49,8 @@ Cross-agent handoff remains important, but it is a supporting capability rather 
 - [2026-10-31 research update](2026-10-31-research-update.md)
 - [2026-11-01 research update](2026-11-01-research-update.md)
 - [2026-11-02 research update](2026-11-02-research-update.md)
+- [2026-11-04 research update](2026-11-04-research-update.md)
+- [2026-11-03 research update](2026-11-03-research-update.md)
 - [Evaluation plan](evaluation-plan.md)
 - [Security and trust](../docs/security-and-trust.md)
 - [Roadmap](../roadmap/roadmap.md)
@@ -103,3 +106,12 @@ Feature-level differentiators (agent adapters, memory, task planning, parallel e
 The next gate is hands-on competitor benchmarking plus 5–10 problem interviews and 3–5 concierge pilots. Prefer integrating existing execution substrates until evidence shows a standalone runtime is necessary.
 
 Research sources and conclusions are recorded in [2026-11-03 research update](2026-11-03-research-update.md).
+
+
+## Research update — 2026-11-04
+
+Cursor Cloud Agents/Automations and Claude Managed Agents now materially overlap with the planned manager/execution loop. OpenAI's Codex platform strategy supports a reuse-the-harness/own-the-domain-layer architecture. The current differentiation hypothesis remains unproven; the next step is hands-on comparative testing of event reliability, outcome verification, cross-provider continuity, memory integrity, policy boundaries, cost, and human coordination. See [the November 4 report](2026-11-04-research-update.md).
+
+## Publishing history
+
+- 2026-11-04: added Cursor Cloud Agents/Automations and Claude Managed Agents research; tightened provider run versus product acceptance semantics; added event reconciliation, memory-integrity, and benchmark cases.
