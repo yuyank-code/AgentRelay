@@ -157,3 +157,23 @@ AgentRelay's product-state model must be distinguished by domain semantics and e
 The candidate differentiator is a verified semantic trace from user goal to real product outcome—not a novel storage engine or memory format.
 
 Reference: [GitHub Agentic Workflows Git-backed Ledger Specification](https://github.github.com/gh-aw/specs/repo-memory-ledger-specification/).
+
+## Interoperable evidence and attestation semantics — 2026-11-05
+
+Use established formats for lower-level claims:
+- in-toto Statement v1 binds predicates to immutable subjects by digest.
+- in-toto test-result/v0.1 records PASSED, WARNED, or FAILED, test configuration references, and test names.
+- SLSA provenance v1.2 records build definition, external parameters, resolved dependencies, trusted builder identity, invocation metadata, and byproducts.
+- Separate predicates can represent SBOM, vulnerability scan, code review, and release evidence.
+
+These formats do not say that a user-approved product requirement is satisfied. AgentRelay's candidate domain relationship is:
+
+GoalVersion -> RequirementID/Version -> ImmutableSubject -> EvidenceAttestations -> VerifierPolicy -> AcceptanceDecision
+
+A future AgentRelay-specific requirement-verification predicate may include project and goal version, requirement ID/version, source/artifact digests, evidence references, PASS/FAIL/INCONCLUSIVE/NOT_RUN, verification method, verifier identity/version, policy version, environment and dependency digests, check configuration, timestamps, coverage, limitations, and superseded evidence. Keep its URI provisional until AgentRelay controls a stable domain and publishes a schema.
+
+A signed attestation is an authenticated claim, not proof of semantic correctness. Verify the envelope, trusted signer, expected builder, predicate type, repository identity, subject digest, freshness, and policy. A signature from the coding agent itself must not satisfy acceptance for its own work.
+
+Evidence remains immutable. The current requirement projection becomes stale when a relevant requirement version, source subject, environment, dependency lock, check definition, or acceptance policy changes. Human acceptance is separate from machine test results.
+
+References: [in-toto Statement v1](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md), [test-result predicate](https://github.com/in-toto/attestation/blob/main/spec/predicates/test-result.md), [SLSA build provenance](https://slsa.dev/spec/v1.2/build-provenance), [DSSE](https://github.com/secure-systems-lab/dsse).

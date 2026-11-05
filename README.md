@@ -105,3 +105,7 @@ The latest research does **not** establish a defensible market gap yet. Factory,
 ## Latest competitive finding — 2026-11-04
 
 Cursor Cloud Agents/Automations and Anthropic Claude Managed Agents now document durable sessions, multi-agent workflows, outcome grading, memory, scheduling, approvals, and hosted/self-hosted execution. OpenAI is also positioning Codex as an embeddable harness for domain-specific products. The candidate wedge remains a portable product-goal/evidence control plane across providers, but it is not proven. See the [November 4 research update](research/2026-11-04-research-update.md), [product state model](docs/product-state-model.md), and [ADR-0006](decisions/ADR-0006-provider-policy-and-acceptance-boundary.md).
+
+## Evidence interoperability update — 2026-11-05
+
+AgentRelay should reuse established attestation formats rather than invent a complete evidence envelope. The proposed product-specific layer is the mapping from approved requirements to immutable code subjects and independently verified evidence. See the [November 5 research update](research/2026-11-05-research-update.md), [evidence attestation profile](docs/evidence-attestation-profile.md), and [ADR-0007](decisions/ADR-0007-standardized-evidence-attestations.md).

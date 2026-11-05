@@ -125,3 +125,22 @@ AgentRelay should adopt the principle, not assume GitHub's implementation can si
 The GitHub Agentic Workflows Git-backed Ledger working draft separates read-only agent projections, validated transaction artifacts, and trusted persistence. It states that an accepted request is not durable until persistence succeeds and that ledger integrity hashes do not authenticate authorship or truth.
 
 Sources: [GitHub security architecture](https://github.github.com/gh-aw/introduction/architecture/), [Git-backed Ledger v1.1 working draft](https://github.github.com/gh-aw/specs/repo-memory-ledger-specification/), [Threat detection](https://github.github.com/gh-aw/reference/threat-detection/), [OpenAI sandbox security](https://developers.openai.com/api/docs/guides/agents-api/environments/security), [Temporal agent gateway idempotency](https://docs.temporal.io/ai/featured/agent-gateway-nexus).
+
+## Attestation trust, replay, and token boundaries — 2026-11-05
+
+The in-toto Statement defines subject/predicate semantics. DSSE authenticates payload bytes and payload type, but leaves key management, identity binding, trust roots, encryption, and verification policy outside its scope. A key ID is only a hint.
+
+- Verify each signature against configured trust roots and expected signer identity.
+- Bind signer to an allowed builder/workflow and expected repository.
+- Validate subject digests and predicate types before policy evaluation.
+- Do not trust an agent-generated PASSED result merely because it is signed by that agent.
+- Keep signing keys outside agent workspaces.
+- Define key rotation, revocation, expiry, and signer-policy versioning.
+
+An in-toto Bundle is not authenticated as a whole. Verify every individual attestation and detect deletion, replay, duplication, stale records, and superseded evidence. Keep an append-only index or trusted audit trail.
+
+For MCP HTTP authorization, use resource/audience-bound tokens, PKCE S256, HTTPS, secure token storage, least-privilege scopes, and Authorization headers. Never forward one MCP server's token to another or put tokens in URLs, prompts, logs, or telemetry. STDIO servers need a separate credential-handling path.
+
+For A2A, validate the remote endpoint and authentication scheme declared by its Agent Card; verify signed Agent Cards when supported and keep tenant/task/agent identity boundaries explicit.
+
+GitHub's current documentation limits artifact attestations on Free/Pro/Team plans to public repositories; private/internal repositories require GitHub Enterprise Cloud. AgentRelay therefore needs provider-neutral evidence storage and verification.

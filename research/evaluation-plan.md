@@ -248,3 +248,23 @@ Do not optimize for agent count, task count, generated issues, PR volume, or raw
 ### Go/no-go interpretation
 
 A feature checklist win is insufficient. AgentRelay should proceed as a standalone product only if a controlled comparison demonstrates a user-valued improvement that existing tools cannot reproduce with reasonable configuration. If the only advantage is a unified interface, test willingness to pay and switching costs. If a competitor provides equal product-level performance, prefer an integration/extension strategy or a narrower open-source project-state component over rebuilding its orchestrator.
+
+## Evidence interoperability and trust tests — 2026-11-05
+
+Add adversarial tests:
+1. A valid test-result attestation references commit A while the candidate task is evaluated at commit B.
+2. A valid signature comes from an unknown or disallowed signer/builder.
+3. A trusted signer attests to the wrong repository or workflow.
+4. An unexpected predicate type or unsupported version is presented as a test result.
+5. A coding agent self-attests that tests passed without trusted runner evidence.
+6. An LLM reviewer passes while deterministic checks fail.
+7. A requirement, commit, test configuration, environment image, dependency lock, or policy changes and affected evidence must become stale.
+8. An evidence bundle is stripped, duplicated, replayed, or modified.
+9. The same A2A message is resent after an ambiguous timeout.
+10. An MCP token for server A is presented to server B.
+11. Prompts, tool arguments/results, signed URLs, or secrets appear in telemetry.
+12. A private-repository GitHub attestation path is attempted on a non-Enterprise plan.
+
+Add metrics for subject-bound evidence coverage, stale-evidence detection precision/recall, invalid signer/predicate rejection, duplicate-action prevention, false acceptance rate, telemetry redaction violations, and verifier cost/latency.
+
+Primary success remains verified product outcome with less human coordination, not the number of signed records.
